@@ -12,10 +12,19 @@ package finalProject;
 import java.util.Scanner;
 
 public class TextGame {
-	static Location forest = new Location("There is wood");
+	Scanner input = new Scanner(System.in);
+	
+	
+	
+	
+	
+	
+	public static void run() {
+		
+	}
 	
 	public static void main (String[] args) {
-		forest.arrive();
+		run ();
 	}
 }
 
