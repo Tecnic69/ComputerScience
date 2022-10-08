@@ -9,34 +9,27 @@
 
 package finalProject;
 
+import java.util.ArrayList;
+
 public class Location {
 	private String description;
-	private int numChoices;
-	private int choiceIndex = 0;
-	private String[] choices;
+	private ArrayList<Event> locationEvents =  new ArrayList<Event>();
 	
-		 // Method displays information when the character arrives at this location
 	public void arrive() {
-		int i;
-		
-		System.out.println(this.description);
-		
-		for (i = 0; i < numChoices; i++) {
-			System.out.println((i) + ": " +choices[i]);
-		}
-		
-		System.out.println((i++) + ": Quit");
+		System.out.printf(description);
 	}
-		//	Collects the name/action that is displayed 
-	public void getChoices(String name) {
-		choices[choiceIndex] = name;
+		 // Method displays information when the character arrives at this location
+	public void addEvent(Event newEvent) {
+		locationEvents.add(newEvent);
 	}
-	
+		//	create a way to get the next event by yourself loser
+	public Event nextEvent() {
+		
+	}
+		
 		//	Object Constructor
-	public Location(String description, int numChoices) {
+	public Location(String description) {
 		this.description = description;
-		this.numChoices = numChoices;
-		this.choices = new String[numChoices];
 	}
 
 }

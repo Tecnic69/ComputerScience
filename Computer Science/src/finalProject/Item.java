@@ -9,7 +9,9 @@
 
 package finalProject;
 
-public class Items {
-	
+import java.util.Scanner;
+
+public class Item {
+
 }
 
