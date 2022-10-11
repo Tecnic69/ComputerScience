@@ -4,8 +4,8 @@
  * TO DO:
  * 1.) Create a way to decide which event is displayed
  * 		- Second Event constructor + abstract conditions for the event
- * 		- manually set the next used event as a command for a consequence
- * 2.) Decide on a way to run the actual events
+ * 		- manually set the next used event as a command for a consequence <------
+ * 2.) run game
  * 		- Method in TextGame class
  * 		- some way in the create(Location)() method
  * 3.) Design a way to store Items and create an Item Storage method to store items
@@ -19,23 +19,32 @@ import java.util.Scanner;
 public class TextGame {
 	Scanner input = new Scanner(System.in);
 	
-	public static Location createPrisonWall () {
-		Location prisonWall = new Location("There it is, the wall that held me captive for so long");
+	public static Location createPrisonWall() {
+		Location prisonWall = new Location();
 		
 		Event escape = new Event("You finally got over the wall unnoticed... for now.");
 		escape.addChoice(new Choice("Search", () -> {System.out.println("You find nothing.");}));
+		escape.addChoice(new Choice("Wait", () -> {System.out.println("You wait and get captured by the men that kept you captive");System.out.println("Game Over");}));
+		
 		prisonWall.addEvent(escape);
 		
 		return prisonWall;
 	}
 	
-	public static void goTo(Location location) {
+	public static Location createForest() {
+		Location forest =  new Location();
 		
+		Event enter = new Event("");
+		
+		
+		return forest;
 	}
 	
 	public static void main (String[] args) {
 		
 		Location prisonWall = createPrisonWall();
+		
+		prisonWall.nextEvent();
 	}
 }
 

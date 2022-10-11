@@ -2,7 +2,7 @@
  * Author: Neumann Davila
  * Date:   Oct 4, 2022
  * Description:
- * This program is going to create location objects so that I can acces them in my text adventure game
+ * This program is going to create location objects so that I can access them in my text adventure game
  * 
  * 
  */
@@ -12,24 +12,25 @@ package finalProject;
 import java.util.ArrayList;
 
 public class Location {
-	private String description;
 	private ArrayList<Event> locationEvents =  new ArrayList<Event>();
+	private int nextEventIndex = 0;
 	
-	public void arrive() {
-		System.out.printf(description);
-	}
 		 // Method displays information when the character arrives at this location
 	public void addEvent(Event newEvent) {
 		locationEvents.add(newEvent);
 	}
+	public void setNextEvent(int eventNum) {
+		this.nextEventIndex = eventNum;
+	}
 		//	create a way to get the next event by yourself loser
-	public Event nextEvent() {
-		
+	public void nextEvent() {
+		Event tempEvent = locationEvents.get(nextEventIndex);
+		tempEvent.displayEvent();
+		tempEvent.getDecision();
 	}
 		
 		//	Object Constructor
-	public Location(String description) {
-		this.description = description;
+	public Location() {
 	}
 
 }

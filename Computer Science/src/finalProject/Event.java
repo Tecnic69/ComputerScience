@@ -27,7 +27,7 @@ public class Event {
 		System.out.println(description);
 		
 		for (int i = 1; i < eventChoices.size() + 1;i++ ) {
-			Choice tempChoice = eventChoices.get(i);
+			Choice tempChoice = eventChoices.get(i - 1);
 			System.out.print(i + ": ");
 			tempChoice.displayChoice();
 		}
@@ -35,7 +35,7 @@ public class Event {
 
 		//	Collects and runs the decision for the event 
 	public void getDecision() {
-		Choice tempChoice = eventChoices.get(input.nextInt());
+		Choice tempChoice = eventChoices.get(input.nextInt() - 1);
 		tempChoice.choiceRun();
 	}
 	public Event(String description) {
