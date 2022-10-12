@@ -15,6 +15,7 @@ public class Player {
 	private String name;
 	private int health = 20;
 	private Item[] inventory = new Item[8];
+	private int lastEmptyCell = 0;
 		//	store items in this inventory
 	
 	public void adjustHealth(int userIn) {
@@ -22,10 +23,18 @@ public class Player {
 	}
 	
 	public void addItem(Item newItem) {
-		
+		this.inventory[this.lastEmptyCell] = newItem;
+		this.lastEmptyCell += 1;
 	}
-	public Player(String name) {
+	public void displayInventory() {
+		for (int i = 0; i < 8; i++) {
+			
+		}
+	}
+	public void setName(String name) {
 		this.name = name;
+	}
+	public Player() {
 	}
 	
 }

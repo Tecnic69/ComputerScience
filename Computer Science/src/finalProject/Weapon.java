@@ -11,7 +11,7 @@ package finalProject;
 
 import java.util.Random;
 
-public class Weapon {
+public class Weapon extends Item {
 	private int damageMin;
 	private int damageMax;
 	private boolean isRanged;
@@ -23,7 +23,7 @@ public class Weapon {
 		
 	}
 	
-	public Weapon(String name, int damageMin, int damageMax, boolean isRanged) {
+	public Weapon(String name, int damageMin, int damageMax) {
 		this.damageMin = damageMin;
 		this.damageMax = damageMax;
 		this.isRanged = isRanged;
