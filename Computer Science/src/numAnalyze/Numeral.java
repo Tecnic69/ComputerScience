@@ -1,8 +1,9 @@
 package numAnalyze;
 
-public class NumAnalyze {
+public class Numeral {
 	
 	public static void showDivisors(int userIn) {
+		userIn = Math.abs(userIn);
 			//	if the value isnt 0 then the method will execute
 		if (userIn != 0) {
 				//	all values are divisible by 1 so I initially print the number
@@ -13,7 +14,7 @@ public class NumAnalyze {
 					System.out.print(", " + i);
 				}
 			}
-			System.out.println(".");
+			System.out.println("");
 		}
 	}
 	
@@ -22,11 +23,11 @@ public class NumAnalyze {
 		boolean isPrime = true;
 		userIn = Math.abs(userIn);
 			//filters out a 0 input 
-		if (userIn != 0) {
+		if (userIn > 1) {
 			//	checks every value inbetween 1 and userIn in order to determine if the number is prime 
 			for (int i = 2; i < userIn; i++) {
 				if ((userIn % i) == 0) {
-						//	sets isPrime to true and brakes the for loop
+						//	sets isPrime to false and brakes the for loop
 					isPrime = false;
 					break;
 				}
@@ -43,6 +44,7 @@ public class NumAnalyze {
 	}
 	
 	public static void factorial (int userIn) {
+		
 			//	if userIn is greater than one then the normal factorial program runs
 		if (userIn > 1) {
 			System.out.print(userIn + "! = " + userIn + " ");
@@ -83,8 +85,12 @@ public class NumAnalyze {
 				searchIndex = userString.lastIndexOf("" + searchValue , searchIndex - 1);
 			}
 		}
+		else {
+			System.out.println(userIn + " does not contain " + searchValue + ".");
+		}
 	}
 	
 	public static void main(String[] args) {
+		
 	}
 }
