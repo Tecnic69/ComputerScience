@@ -14,25 +14,60 @@ import java.util.Random;
 public class Weapon extends Item {
 	private int damageMin;
 	private int damageMax;
-	private boolean isRanged;
+	private int hitChance;
+	private boolean isRanged = false;
 	private String name;
+	private Ammunition ammo;
 	
+		//	creates an attack using random values between the min and max
 	public int attack() {
 		Random rand = new Random();
-		return rand.nextInt(damageMax - damageMin) + damageMin;
 		
+		if (isRanged == false) {
+			return rand.nextInt(damageMax - damageMin) + damageMin;
+		}
+		else {
+			if (ammo.useAmmo() == true) {
+				return rand.nextInt(damageMax - damageMin) + damageMin;
+			}
+			else {
+				System.out.println("You do not have any ammo for that weapon.");
+				return 0;
+			}
+		}
 	}
-	
-	public Weapon(String name, int damageMin, int damageMax) {
-		this.damageMin = damageMin;
-		this.damageMax = damageMax;
-		this.isRanged = isRanged;
-		this.name = name;
-	}
-	
+		//	display's stats of the weapon
 	public void displayStats() {
 		System.out.println(name + ": " + damageMin + "-" + damageMax);
 	}
+		//	contstructor intakes: name, damagemin/max, and the hit chance (out of 100)
+	public Weapon(String name, int damageMin, int damageMax, int hitChance) {
+		this.damageMin = damageMin;
+		this.damageMax = damageMax;
+		this.hitChance = hitChance;
+		this.name = name;
+	}
+
+	public Weapon(String name, int damageMin, int damageMax, int hitChance, Ammunition ammo) {
+		this.damageMin = damageMin;
+		this.damageMax = damageMax;
+		this.name = name;
+		this.isRanged = true;
+		this.ammo = ammo;
+	}
 	
+	public String toString() {
+		String summary = "";
+		
+		summary += name + ":\n";
+		summary += "     Damage: " + damageMin + " - " + damageMax + "\n";
+		summary += "     Hit Chance: " + hitChance + "%\n";
+		
+		if (isRanged == true) {
+			summary += "     Ammo: " + ammo.getName();
+		}
+		
+		return summary;
+	}
 }
 

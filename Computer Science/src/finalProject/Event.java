@@ -24,7 +24,8 @@ public class Event {
 	}
 		//	Displays all the choices that are available for the event
 	public void displayEvent() {
-		System.out.println(description);
+		System.out.printf(description);
+		System.out.println("");
 		
 		for (int i = 1; i < eventChoices.size() + 1;i++ ) {
 			Choice tempChoice = eventChoices.get(i - 1);

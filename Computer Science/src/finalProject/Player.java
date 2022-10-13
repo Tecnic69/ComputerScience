@@ -9,8 +9,6 @@
 
 package finalProject;
 
-import java.util.Scanner;
-
 public class Player {
 	private String name;
 	private int health = 20;
@@ -28,7 +26,7 @@ public class Player {
 	}
 	public void displayInventory() {
 		for (int i = 0; i < 8; i++) {
-			
+			System.out.println(this.inventory[i]);
 		}
 	}
 	public void setName(String name) {
