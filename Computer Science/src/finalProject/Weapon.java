@@ -2,8 +2,8 @@
  * Author: Neumann Davila
  * Date:   Oct 6, 2022
  * Description:
- *	Used to create WeaponObjects 
- *
+ * Used to create WeaponObjects 
+ * 
  * 
  */
 
@@ -40,7 +40,7 @@ public class Weapon extends Item {
 	public void displayStats() {
 		System.out.println(name + ": " + damageMin + "-" + damageMax);
 	}
-		//	contstructor intakes: name, damagemin/max, and the hit chance (out of 100)
+		//	contstructor intakes: name, damageMin/max, and the hit chance (out of 100)
 	public Weapon(String name, int damageMin, int damageMax, int hitChance) {
 		this.damageMin = damageMin;
 		this.damageMax = damageMax;
@@ -61,10 +61,10 @@ public class Weapon extends Item {
 		
 		summary += name + ":\n";
 		summary += "     Damage: " + damageMin + " - " + damageMax + "\n";
-		summary += "     Hit Chance: " + hitChance + "%\n";
+		summary += "     Hit Chance: " + hitChance + "%";
 		
 		if (isRanged == true) {
-			summary += "     Ammo: " + ammo.getName();
+			summary += "\n     Ammo: " + ammo.getName();
 		}
 		
 		return summary;

@@ -9,7 +9,7 @@
 
 package finalProject;
 
-public class Player {
+public class Character {
 	private String name;
 	private int health = 20;
 	private Item[] inventory = new Item[8];
@@ -32,7 +32,7 @@ public class Player {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Player() {
+	public Character() {
 	}
 	
 }
