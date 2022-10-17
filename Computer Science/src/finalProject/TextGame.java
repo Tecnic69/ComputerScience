@@ -11,6 +11,7 @@
 
 package finalProject;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TextGame {
@@ -65,6 +66,7 @@ public class TextGame {
 	public static void main (String[] args) {
 		Location forest = new Location();
 		Event test = new Event("test");
+		test.addNPC(oldMan);
 		player.addItem(oldSword);
 		player.addItem(cane);
 		player.addItem(oldAxe);

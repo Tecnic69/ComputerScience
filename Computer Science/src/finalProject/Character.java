@@ -17,11 +17,15 @@ public class Character {
 	
 	private String name;
 	private int health = 20;
+		//	inventory variables
 	private int lastEmptyCell = 0;
 	private Item[] inventory = new Item[8];
 	private ArrayList<Weapon> weapons = new ArrayList<Weapon>();
 	private Weapon equippedWeapon;
+		//	npc vairbales
 	private boolean isNPC = true;
+		//	death events
+	private Event death = new Event("");
 		
 									//	---MISC---  \\
 	public void setName(String name) {
@@ -51,6 +55,14 @@ public class Character {
 			System.out.println("The " + this.name + " did " + damage + " damage to you.");
 		}
 	}
+	
+	public void deathEvent(Event event) {
+		death.addChoice(new Choice("", () -> {}));
+		
+		death.displayEvent();
+		event.displayEvent();
+	}
+	
 								//	---Weapon Methods---  \\
 	
 	//	Adds weapons to a list that can be easily accessed
@@ -111,7 +123,7 @@ public class Character {
 		else {
 			Item tempItem = inventory[discardIndex - 1];
 			
-			System.out.println("Are you sure you want to discard " + tempItem);
+			System.out.println("Are you sure you want to discard:\n" + tempItem);
 			System.out.println("1: Yes\n2: No");
 			int tempInput = input.nextInt();
 			if (tempInput ==1) {
