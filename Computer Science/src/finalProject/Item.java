@@ -9,8 +9,6 @@
 
 package finalProject;
 
-import java.util.Scanner;
-
 public class Item {
 }
 

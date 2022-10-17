@@ -18,10 +18,10 @@ public class Choice {
 		outcome.react();
 	}
 	
-	public void displayChoice() {
-		System.out.println(choiceDescription);
+	public String toString() {
+		return this.choiceDescription;
 	}
-		//	Collects info necissary for the Choice
+		//	Collects info necessary for the Choice
 	public Choice(String choiceDescription, Consequence effect) {
 		this.choiceDescription = choiceDescription;
 		this.outcome = effect;

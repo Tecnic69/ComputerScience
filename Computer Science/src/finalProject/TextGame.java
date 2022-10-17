@@ -2,14 +2,11 @@
  * Author: Neumann Davila
  * Date:   Oct 4, 2022
  * TO DO:
- * 1.) Create a way to decide which event is displayed
- * 		- Second Event constructor + abstract conditions for the event
- * 		- manually set the next used event as a command for a consequence <------
- * 2.) run game
- * 		- Method in TextGame class
- * 		- some way in the create(Location)() method
- * 3.) Design a way to store Items and create an Item Storage method to store items
- * 	   in the Player Inventory
+ * 1.) Create a default inventory Event
+ * 		- Display Inventory
+ * 		- Discard Items
+ * 		- Exit Inventory
+ * 2.) Integrate Discard Item if inventory is to full
  */
 
 package finalProject;
@@ -18,18 +15,20 @@ import java.util.Scanner;
 
 public class TextGame {
 	static Scanner input = new Scanner(System.in);
-		//	Player declaration
-	static Character player =  new Character();
-	
+		//	Declared Ammunition - Ammunition("Name" , amount)
 	static Ammunition arrows = new Ammunition("Arrows", 10);
 	
-		//	Declared Items - Weapons
+		//	Declared Items - Weapons("Name" , minDamage, maxDamage, hit%)
+	static Weapon cane = new Weapon("Cane", 1, 3, 35);
 	static Weapon oldSword = new Weapon("Old Sword", 5, 7 , 63);
 	static Weapon oldAxe = new Weapon("Old Axe", 8, 10, 45);
 	static Weapon oldBow = new Weapon("Old Bow", 6, 9, 55, arrows);
 	
-	
-	
+		//	Character declaration
+	static Character player =  new Character(false);
+		//	Aggressive NPC = Character("Name" , weapon, health)
+	static Character oldMan = new Character("Old man", cane, 6);
+		
 		//	Location creation methods
 	public static Location createPrisonWall() {
 		Location prisonWall = new Location();
@@ -38,7 +37,7 @@ public class TextGame {
 		Event escape = new Event("You finally got over the wall unnoticed... for now.", false);
 		escape.addChoice(new Choice("Search", () -> {System.out.println("You find nothing.");}));
 		escape.addChoice(new Choice("Wait", () -> {System.out.println("You wait and get captured by the men that kept you captive");System.out.println("Game Over");}));
-		escape.addChoice(new Choice("Run", () -> {System.out.printf("You run and run for miles, until you finally see a forest in the distance.\nHopefully you will be able to hide in there.");forest.nextEvent();}));
+		escape.addChoice(new Choice("Run", () -> {System.out.printf("You run and run for miles, until you finally see a forest in the distance.\nHopefully you will be able to hide in there.");forest.nextEvent(0);}));
 		
 		prisonWall.addEvent(escape);
 		
@@ -47,35 +46,37 @@ public class TextGame {
 	
 	public static Location createForest() {
 		Location forest =  new Location();
-		
+			//	Event Index 0
 		Event enterCampsite = new Event("As you get deeper into the forest you find a campsite that was abandoned long ago.\nThere are an asortment of items left behind... hopefully one wants them back.\nYou find a jounral and decide to write your name", false);
-		enterCampsite.addChoice(new Choice("Write your name in your journal",() -> {System.out.println("Please type your name.");player.setName(input.nextLine());forest.setNextEvent(1);forest.nextEvent();}));
+		enterCampsite.addChoice(new Choice("Write your name in your journal",() -> {System.out.println("Please type your name.");player.setName(input.nextLine());forest.nextEvent(1);}));
 		
 		forest.addEvent(enterCampsite);
-		
+			//	Event Index 1
 		Event getWeapon = new Event("You also find an old Backpack with a...", false);
-		getWeapon.addChoice(new Choice("Axe", () -> {player.addItem(oldAxe);}));
+		getWeapon.addChoice(new Choice("Axe", () -> {player.addItem(oldAxe);forest.nextEvent(2);}));
 		getWeapon.addChoice(new Choice("Sword", () -> {player.addItem(oldSword);}));
 		getWeapon.addChoice(new Choice("A bow with 10 arrows", () -> {player.addItem(oldBow);player.addItem(arrows);}));
 		
 		forest.addEvent(getWeapon);
-		
-		
+			//	Event Index 2
 		
 		return forest;
 	}
-	
-	public static void goTo(Location location) {
-		location.nextEvent();
-	}
-	
 	public static void main (String[] args) {
+		Location forest = new Location();
+		Event test = new Event("test");
+		player.addItem(oldSword);
+		player.addItem(cane);
+		player.addItem(oldAxe);
+		test.displayEvent();
 		
-		Location prisonWall = createPrisonWall();
 		
-		prisonWall.nextEvent();
 		
-		System.out.println("Thank you for playing!\nThis is all I have at the moment but more will be added soon.");
+//		Location prisonWall = createPrisonWall();
+//		
+//		prisonWall.nextEvent(0);
+//		
+//		System.out.println("Thank you for playing!\nThis is all I have at the moment but more will be added soon.");
 	}
 }
 

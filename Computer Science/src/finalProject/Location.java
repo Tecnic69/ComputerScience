@@ -13,20 +13,16 @@ import java.util.ArrayList;
 
 public class Location {
 	private ArrayList<Event> locationEvents =  new ArrayList<Event>();
-	private int nextEventIndex = 0;
+	private int currentEvent;
 	
 		 // Method displays information when the character arrives at this location
 	public void addEvent(Event newEvent) {
 		locationEvents.add(newEvent);
 	}
-	public void setNextEvent(int eventNum) {
-		this.nextEventIndex = eventNum;
-	}
 		//	create a way to get the next event by yourself loser
-	public void nextEvent() {
-		Event tempEvent = locationEvents.get(nextEventIndex);
-		tempEvent.displayEvent();
-		tempEvent.getDecision();
+	public void nextEvent(int eventNum) {
+		locationEvents.get(eventNum).displayEvent();
+		this.currentEvent = eventNum;
 	}
 		
 		//	Object Constructor

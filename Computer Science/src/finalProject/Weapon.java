@@ -19,6 +19,19 @@ public class Weapon extends Item {
 	private String name;
 	private Ammunition ammo;
 	
+	public String toString() {
+		String summary = "";
+		
+		summary += name + ":\n";
+		summary += "     Damage: " + damageMin + " - " + damageMax + "\n";
+		summary += "     Hit Chance: " + hitChance + "%";
+		
+		if (isRanged == true) {
+			summary += "\n     Ammo: " + ammo.getName();
+		}
+		
+		return summary;
+	}
 		//	creates an attack using random values between the min and max
 	public int attack() {
 		Random rand = new Random();
@@ -36,11 +49,9 @@ public class Weapon extends Item {
 			}
 		}
 	}
-		//	display's stats of the weapon
-	public void displayStats() {
-		System.out.println(name + ": " + damageMin + "-" + damageMax);
-	}
-		//	contstructor intakes: name, damageMin/max, and the hit chance (out of 100)
+	
+											//	---Constructors---  \\
+
 	public Weapon(String name, int damageMin, int damageMax, int hitChance) {
 		this.damageMin = damageMin;
 		this.damageMax = damageMax;
@@ -56,18 +67,6 @@ public class Weapon extends Item {
 		this.ammo = ammo;
 	}
 	
-	public String toString() {
-		String summary = "";
-		
-		summary += name + ":\n";
-		summary += "     Damage: " + damageMin + " - " + damageMax + "\n";
-		summary += "     Hit Chance: " + hitChance + "%";
-		
-		if (isRanged == true) {
-			summary += "\n     Ammo: " + ammo.getName();
-		}
-		
-		return summary;
-	}
+	
 }
 
