@@ -16,7 +16,7 @@ public class Character {
 	Scanner input = new Scanner(System.in);
 	
 	private String name;
-	private int health = 20;
+	private int health;
 		//	inventory variables
 	private int lastEmptyCell = 0;
 	private Item[] inventory = new Item[8];
@@ -36,6 +36,7 @@ public class Character {
 	}
 	
 								//	---Health Methods---  \\
+	
 	public void adjustHealth(int userIn) {
 		this.health += userIn;
 	}
@@ -46,26 +47,36 @@ public class Character {
 	
 	public void attack(Character enemy) {
 		int damage = equippedWeapon.attack();
-		enemy.adjustHealth(-damage);
-		
-		if(isNPC == false) {
-			System.out.println("You do " + damage + " damage to the " + enemy + ".");
+		if(damage > 0) {
+			enemy.adjustHealth(-damage);
+			if(isNPC == false) {
+				System.out.println("You do " + damage + " damage to the " + enemy + ".");
+			}
+			else {
+				System.out.println("The " + this.name + " did " + damage + " damage to you.");
+			}
 		}
 		else {
-			System.out.println("The " + this.name + " did " + damage + " damage to you.");
+			if(isNPC == false) {
+				System.out.println("You miss!");
+			}
+			else {
+				System.out.println(this.name + " missed!");
+			}
 		}
 	}
 	
-	public void deathEvent(Event event) {
-		death.addChoice(new Choice("", () -> {}));
-		
+	public void setDeathEvent(Event event) {
+		this.death = event;
+	}
+	
+	public void displayDeathEvent() {
 		death.displayEvent();
-		event.displayEvent();
 	}
 	
 								//	---Weapon Methods---  \\
 	
-	//	Adds weapons to a list that can be easily accessed
+	//	Adds weapons to a lsetSist that can be easily accessed
 	public void addItem(Weapon newWeapon) {
 		if(lastEmptyCell < 8) {
 			weapons.add(newWeapon);
@@ -147,6 +158,9 @@ public class Character {
 	
 	public Character(boolean isNPC) {
 		this.isNPC = isNPC;
+		Event gameOver = new Event("You Died", false);
+		gameOver.addChoice(new Choice("Restart Game", () -> {TextGame.run();}));
+		setDeathEvent(gameOver);
 	}
 	
 	public Character(String name, Weapon weapon, int health) {

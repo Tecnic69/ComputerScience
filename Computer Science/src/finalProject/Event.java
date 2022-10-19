@@ -18,30 +18,41 @@ public class Event {
 	private String description;
 	private ArrayList<Choice> eventChoices = new ArrayList<Choice>();
 	private ArrayList<Character> eventNPC = new ArrayList<Character>();
+	private boolean isDefault = true;
 	
 									//	---Display Methods---	\\
 	
 	public void displayEvent() {
-			//	if no enemy is provided then the normal Event structure is followed
-		
-			System.out.printf(description);
-			System.out.println("");
-			for (int j = 0; j < eventNPC.size(); j++) {
-				Character NPC = eventNPC.get(j);
-				addChoice(new Choice("" + eventNPC.get(j), () -> {NPCEvent(NPC);}));
-			}
-			for (int i = 0; i < eventChoices.size();i++ ) {
-				System.out.println(i + ": " + eventChoices.get(i));
-			}
-			
-			for (int j = 0; j < eventNPC.size(); j++) {
-				Character NPC = eventNPC.get(j);
-				addChoice(new Choice("" + eventNPC.get(j), () -> {NPCEvent(NPC);}));
-			}
-			
-			getDecision();
+			//	automatically runs if there is only one choice in the Event
+		if(eventChoices.size() == 1) {
+			System.out.println(description);
+			eventChoices.get(0).choiceRun();
 		}
-	
+		else {
+				//	If the event has default choices then it will run starting at 0
+			if(isDefault == true) {
+				System.out.printf(description);
+				System.out.println("");
+				
+				for (int i = 0; i < eventChoices.size();i++ ) {
+					System.out.println(i + ": " + eventChoices.get(i));
+				}
+				getDecision();
+			}
+				//	Choices will be run stating at 1 for ease of use
+				//	only if default choices are not being used
+			else {
+				System.out.println(description);
+				
+				for(int i = 1; i < eventChoices.size() + 1; i++) {
+					System.out.println(i + ": " + eventChoices.get(i - 1));
+				}
+				
+				eventChoices.get(input.nextInt() - 1).choiceRun();
+			}
+		}
+	}
+		//	Inventory event built into every event object if the method is called
 	public void inventoryEvent() {
 		ArrayList<Choice> inventoryChoices = new ArrayList<Choice>();
 		inventoryChoices.add(new Choice("Discard Item", () -> {TextGame.player.discradItem();displayEvent();}));
@@ -61,6 +72,7 @@ public class Event {
 	
 	public void addNPC(Character character) {
 		eventNPC.add(character);
+		addChoice(new Choice("Interact with " + character, () -> {NPCEvent(character);}));
 	}
 	
 	public void NPCEvent(Character NPC) {
@@ -84,7 +96,7 @@ public class Event {
 		while(TextGame.player.getHealth() > 0 && enemy.getHealth() > 0) {
 			System.out.println("\nHealth: " + TextGame.player.getHealth());
 			
-			combatChoices.add(new Choice("Attack: " + TextGame.player.getEquippedWeapon(), () -> {TextGame.player.attack(enemy);}));
+			combatChoices.add(new Choice("Attack: " + TextGame.player.getEquippedWeapon(), () -> {TextGame.player.attack(enemy);enemy.attack(TextGame.player);}));
 			combatChoices.add(new Choice("Switch Weapons", () -> {TextGame.player.setEquippedWeapon();}));
 			
 			for (int i = 1; i < combatChoices.size() + 1;i++ ) {
@@ -96,17 +108,13 @@ public class Event {
 			while(combatChoices.size() != 0) {
 				combatChoices.remove(0);
 			}
-			
-			if(currentHealth != enemy.getHealth()) {
-				enemy.attack(TextGame.player);
-			}
 		}
-		if(TextGame.player.getHealth() == 0) {
-			System.out.println("\nYou died");
+		if(TextGame.player.getHealth() < 0) {
+			TextGame.player.displayDeathEvent();
 		}
 		else {
 			System.out.println("\nYou killed the " + enemy);
-			//	enemy.deathEvent();
+			enemy.displayDeathEvent();
 		}
 		
 	}
@@ -131,6 +139,7 @@ public class Event {
 		//	Special Constructor for events without default choice like Display Inventory
 	public Event(String description, boolean containsDefaultChoices) {
 		this.description = description;
+		this.isDefault = containsDefaultChoices;
 	}
 }
 

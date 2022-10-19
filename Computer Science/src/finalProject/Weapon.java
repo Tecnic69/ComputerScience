@@ -35,18 +35,25 @@ public class Weapon extends Item {
 		//	creates an attack using random values between the min and max
 	public int attack() {
 		Random rand = new Random();
+		int hitPerc = rand.nextInt(99);
 		
-		if (isRanged == false) {
-			return rand.nextInt(damageMax - damageMin) + damageMin;
-		}
-		else {
-			if (ammo.useAmmo() == true) {
+		if(hitPerc < hitChance - 1){
+			if (isRanged == false) {
 				return rand.nextInt(damageMax - damageMin) + damageMin;
 			}
 			else {
-				System.out.println("You do not have any ammo for that weapon.");
-				return 0;
+				if (ammo.useAmmo() == true) {
+					return rand.nextInt(damageMax - damageMin) + damageMin;
+				}
+				else {
+					System.out.println("You do not have any ammo for that weapon.");
+					return 0;
+				}
 			}
+		}
+		else {
+			System.out.println("You missed!");
+			return 0;
 		}
 	}
 	
