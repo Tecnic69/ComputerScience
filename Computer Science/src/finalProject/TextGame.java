@@ -20,7 +20,7 @@ public class TextGame {
 	static Ammunition arrows = new Ammunition("Arrows", 10);
 	
 		//	Declared Items - Weapons("Name" , minDamage, maxDamage, hit%)
-	static Weapon cane = new Weapon("Cane", 60, 61, 35);
+	static Weapon cane = new Weapon("Cane", 1, 3, 35);
 	static Weapon oldSword = new Weapon("Old Sword", 5, 7 , 63);
 	static Weapon oldAxe = new Weapon("Old Axe", 8, 10, 45);
 	static Weapon oldBow = new Weapon("Old Bow", 6, 9, 55, arrows);
