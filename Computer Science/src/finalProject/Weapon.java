@@ -52,7 +52,6 @@ public class Weapon extends Item {
 			}
 		}
 		else {
-			System.out.println("You missed!");
 			return 0;
 		}
 	}
@@ -69,6 +68,7 @@ public class Weapon extends Item {
 	public Weapon(String name, int damageMin, int damageMax, int hitChance, Ammunition ammo) {
 		this.damageMin = damageMin;
 		this.damageMax = damageMax;
+		this.hitChance = hitChance;
 		this.name = name;
 		this.isRanged = true;
 		this.ammo = ammo;

@@ -52,6 +52,7 @@ public class Event {
 			}
 		}
 	}
+	
 		//	Inventory event built into every event object if the method is called
 	public void inventoryEvent() {
 		ArrayList<Choice> inventoryChoices = new ArrayList<Choice>();
@@ -88,10 +89,11 @@ public class Event {
 		NPCChoices.get(input.nextInt() - 1).choiceRun();
 	}
 	
+		//	Method that runs combat Events with NPC's
+	
 	public void combatEvent(Character enemy) {
 		ArrayList<Choice> combatChoices = new ArrayList<Choice>();
 		
-		int currentHealth = enemy.getHealth();
 			//while both the enemy and the player have over m0 health
 		while(TextGame.player.getHealth() > 0 && enemy.getHealth() > 0) {
 			System.out.println("\nHealth: " + TextGame.player.getHealth());
