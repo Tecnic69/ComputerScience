@@ -33,7 +33,7 @@ public class TextGame {
 		
 								//	---Character Creation Methods---\\
 	
-		//	Aggressive NPC = Character("Name" , weapon, health)
+		//	Aggressive NPC = Character("Name" , weapon, health, XP gained)
 	public static Character createOldMan() {
 		Character oldMan = new Character("Old man", cane, 6, 20);
 		
