@@ -7,7 +7,7 @@
  * 
  */
 
-package finalProject;
+package finalProject.CharacterObjects;
 
 public class Item {
 }

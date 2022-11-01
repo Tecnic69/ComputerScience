@@ -7,7 +7,7 @@
  * 
  */
 
-package finalProject;
+package finalProject.Locations;
 
 public interface Consequence {
 	void react();

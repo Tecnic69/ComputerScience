@@ -7,7 +7,7 @@
  * 
  */
 
-package finalProject;
+package finalProject.CharacterObjects;
 
 import java.util.Random;
 
@@ -57,7 +57,13 @@ public class Weapon extends Item {
 	}
 	
 											//	---Constructors---  \\
-
+	public Weapon() {
+		this.name = "test";
+		this.damageMax = 2;
+		this.damageMin = 1;
+		this.hitChance = 50;
+	}
+		
 	public Weapon(String name, int damageMin, int damageMax, int hitChance) {
 		this.damageMin = damageMin;
 		this.damageMax = damageMax;

@@ -11,8 +11,11 @@
 
 package finalProject;
 
-import java.util.ArrayList;
 import java.util.Scanner;
+
+import finalProject.CharacterObjects.*;
+import finalProject.CharacterObjects.Character;
+import finalProject.Locations.*;
 
 public class TextGame {
 	static Scanner input = new Scanner(System.in);
@@ -25,12 +28,23 @@ public class TextGame {
 	static Weapon oldAxe = new Weapon("Old Axe", 8, 10, 45);
 	static Weapon oldBow = new Weapon("Old Bow", 6, 9, 55, arrows);
 	
-		//	Character declaration
-	static Character player =  new Character(false);
-		//	Aggressive NPC = Character("Name" , weapon, health)
-	static Character oldMan = new Character("Old man", cane, 6);
+		//	Main Player declaration
+	public static Character player =  new Character(false);
 		
-		//	Location creation methods
+								//	---Character Creation Methods---\\
+	
+		//	Aggressive NPC = Character("Name" , weapon, health)
+	public static Character createOldMan() {
+		Character oldMan = new Character("Old man", cane, 6, 20);
+		
+		oldMan.addDialogue("Hello yourng wipper snapper");
+		oldMan.addDialogue("...Oh did you say something");
+				
+		return oldMan;
+	}
+	
+	
+								//	---Location Creation Methods---	\\
 	public static Location createPrisonWall() {
 		Location prisonWall = new Location();
 		
@@ -61,7 +75,7 @@ public class TextGame {
 		forest.addEvent(getWeapon);
 			//	Event Index 2
 		Event test = new Event("test");
-		test.addNPC(oldMan);
+		test.addNPC(createOldMan());
 		
 		forest.addEvent(test);
 		
@@ -69,7 +83,8 @@ public class TextGame {
 	}
 	
 	public static void run() {
-		player.adjustHealth(20);
+		player.setHealth(20);
+		player.getStats().setStats();
 		Location prisonWall = createPrisonWall();
 		prisonWall.nextEvent(0);
 		
@@ -77,12 +92,7 @@ public class TextGame {
 	
 	public static void main (String[] args) {
 		run();
-		
-//		Location prisonWall = createPrisonWall();
-//		
-//		prisonWall.nextEvent(0);
-//		
-//		System.out.println("Thank you for playing!\nThis is all I have at the moment but more will be added soon.");
 	}
+	
 }
 

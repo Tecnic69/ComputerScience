@@ -7,7 +7,7 @@
  * 
  */
 
-package finalProject;
+package finalProject.Locations;
 
 import java.util.ArrayList;
 

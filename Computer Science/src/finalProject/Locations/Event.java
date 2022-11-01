@@ -2,15 +2,25 @@
  * Author: Neumann Davila
  * Date:   Oct 7, 2022
  * Description:
- * Creates an event that can relate to a specific area.
- *
+ * Events Store multiple things necissary for the program
+ * 		- Event description
+ * 		- Choices custom to the event
+ * 		- Default Events that can run in every event conditionaly
+ * 		- NPC's within the event and the interactions that are possible with that npc
+ * 			- This is build in so it is easier to return back to this event (may change)
+ * 
  * 
  */
 
-package finalProject;
+package finalProject.Locations;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import finalProject.CharacterObjects.Character;
+import finalProject.CharacterObjects.Item;
+
+import finalProject.TextGame;
 
 public class Event {
 	private Scanner input = new Scanner(System.in);
@@ -56,7 +66,7 @@ public class Event {
 		//	Inventory event built into every event object if the method is called
 	public void inventoryEvent() {
 		ArrayList<Choice> inventoryChoices = new ArrayList<Choice>();
-		inventoryChoices.add(new Choice("Discard Item", () -> {TextGame.player.discradItem();displayEvent();}));
+		inventoryChoices.add(new Choice("Discard Item", () -> {TextGame.player.discardItem();displayEvent();}));
 		inventoryChoices.add(new Choice("Exit Inventory", () -> {displayEvent();}));
 		
 		TextGame.player.displayInventory();
@@ -73,15 +83,16 @@ public class Event {
 	
 	public void addNPC(Character character) {
 		eventNPC.add(character);
-		addChoice(new Choice("Interact with " + character, () -> {NPCEvent(character);}));
+		addChoice(new Choice("Interact with " + character, () -> {NPCEvent(character);displayEvent();}));
 	}
 	
 	public void NPCEvent(Character NPC) {
 		ArrayList<Choice> NPCChoices = new ArrayList<Choice>();
 		
-		NPCChoices.add(new Choice("Talk to " + NPC, () -> {}));
+		NPCChoices.add(new Choice("Talk to " + NPC, () -> {System.out.println(NPC.getDialogue());}));
+		NPCChoices.add(new Choice("Give something to " + NPC, () -> {TextGame.player.giveItem(NPC);}));
 		NPCChoices.add(new Choice("Attack " + NPC, () -> {combatEvent(NPC);}));
-		NPCChoices.add(new Choice("Pickpocket " + NPC, () -> {}));
+		NPCChoices.add(new Choice("Pickpocket " + NPC, () -> {NPC.pickPocket(TextGame.player);}));
 		
 		for (int i = 1; i < NPCChoices.size() + 1;i++ ) {
 			System.out.println(i + ": " + NPCChoices.get(i - 1));
@@ -134,6 +145,12 @@ public class Event {
 	
 									//	---Constructors---	\\
 	
+	public Event() {
+		this.description = "test";
+		eventChoices.add(new Choice("Show Inventory", () -> {inventoryEvent();}));
+		addNPC(new Character());
+	}
+	
 	public Event(String description) {
 		this.description = description;
 		eventChoices.add(new Choice("Show Inventory", () -> {inventoryEvent();}));
@@ -142,6 +159,10 @@ public class Event {
 	public Event(String description, boolean containsDefaultChoices) {
 		this.description = description;
 		this.isDefault = containsDefaultChoices;
+	}
+	
+	public Event(String description, Item triggerItem) {
+		this.description = description;
 	}
 }
 
