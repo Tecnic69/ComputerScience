@@ -33,7 +33,7 @@ public class Character {
 	private Item[] inventory = new Item[8];
 	private ArrayList<Weapon> weapons = new ArrayList<Weapon>();
 	private Weapon equippedWeapon;
-		//	npc vairbales
+		//	npc variables
 	private boolean isNPC = true;
 	private ArrayList<Event> sideQuests = new ArrayList<Event>();
 		//	death events
@@ -91,7 +91,7 @@ public class Character {
 				}
 				lastEmptyCell--;
 				
-					//	Checks if the Item is a sotred Weapon and removes it from the useable weapons
+					//	Checks if the Item is a sorted Weapon and removes it from the usable weapons
 				if(weapons.indexOf(tempItem) != -1) {
 					weapons.remove(weapons.indexOf(tempItem));
 					if(tempItem == equippedWeapon) {
@@ -104,7 +104,7 @@ public class Character {
 	
 	public void pickPocket(Character recipiant) {
 			//	finalize stat system idea
-			//	create an if stament that allows for a chance of failure
+			//	create an if statement that allows for a chance of failure
 		if(recipiant.getStats().rollDexterity(this.stats.getDexterity()) == true) {
 			displayInventory();
 			System.out.println("What would you like to take?\n9: Exit");
@@ -309,6 +309,7 @@ public class Character {
 	public Character(String name, Weapon weapon, int health,int xp) {
 		this.name = name;
 		this.maxHealth = health;
+		this.tempHealth = health;
 		addItem(weapon);
 		this.stats.getXp().setStat(xp);
 	}

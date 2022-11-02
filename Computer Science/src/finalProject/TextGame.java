@@ -2,11 +2,7 @@
  * Author: Neumann Davila
  * Date:   Oct 4, 2022
  * TO DO:
- * 1.) Create a default inventory Event
- * 		- Display Inventory
- * 		- Discard Items
- * 		- Exit Inventory
- * 2.) Integrate Discard Item if inventory is to full
+ * 1.)
  */
 
 package finalProject;
@@ -33,7 +29,12 @@ public class TextGame {
 		
 								//	---Character Creation Methods---\\
 	
-		//	Aggressive NPC = Character("Name" , weapon, health, XP gained)
+		/* Aggressive NPC = Character("Name" , weapon, health, XP gained)
+		 * 		- Dialogue must be added within functions
+		 * 		- Stats must be added within function
+		 * 		- Potential side quest must be added within the function
+		 */
+		
 	public static Character createOldMan() {
 		Character oldMan = new Character("Old man", cane, 6, 20);
 		
@@ -45,6 +46,7 @@ public class TextGame {
 	
 	
 								//	---Location Creation Methods---	\\
+	
 	public static Location createPrisonWall() {
 		Location prisonWall = new Location();
 		
@@ -84,6 +86,7 @@ public class TextGame {
 	
 	public static void run() {
 		player.setHealth(20);
+		player.getStats().resetGame();
 		player.getStats().setStats();
 		Location prisonWall = createPrisonWall();
 		prisonWall.nextEvent(0);

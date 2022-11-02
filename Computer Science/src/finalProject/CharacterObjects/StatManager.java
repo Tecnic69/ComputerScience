@@ -42,7 +42,7 @@ public class StatManager {
 	private int totalStatPoints;
 	
 	public String toString() {
-		return "" + strength + "\n" + charisma + "\n" + dexterity + "\n";
+		return "" + strength + "\n" + dexterity + "\n" + charisma + "\n";
 	}
 	
 	public void clearStats() {
@@ -58,7 +58,6 @@ public class StatManager {
 	}
 	
 	public void setStats() {
-		clearStats();
 		
 		int tempStr = strength.getStat();
 		int tempCha = charisma.getStat();
@@ -68,8 +67,8 @@ public class StatManager {
 			Event setStats = new Event("You have " + totalStatPoints + " stat points\nPlease chose which stat you would like to increase", false);
 			
 			setStats.addChoice(new Choice("" + strength, () -> {System.out.println("How many points would you like to add to this stat?");int tempInt = input.nextInt();strength.adjustStat(tempInt);totalStatPoints -= tempInt;}));
-			setStats.addChoice(new Choice("" + dexterity, () -> {System.out.println("How many points would you like to add to this stat?");int tempInt = input.nextInt();strength.adjustStat(tempInt);totalStatPoints -= tempInt;}));
-			setStats.addChoice(new Choice("" + charisma, () -> {System.out.println("How many points would you like to add to this stat?");int tempInt = input.nextInt();strength.adjustStat(tempInt);totalStatPoints -= tempInt;}));
+			setStats.addChoice(new Choice("" + dexterity, () -> {System.out.println("How many points would you like to add to this stat?");int tempInt = input.nextInt();dexterity.adjustStat(tempInt);totalStatPoints -= tempInt;}));
+			setStats.addChoice(new Choice("" + charisma, () -> {System.out.println("How many points would you like to add to this stat?");int tempInt = input.nextInt();charisma.adjustStat(tempInt);totalStatPoints -= tempInt;}));
 			setStats.addChoice(new Choice("Reset to previous stats", () -> {totalStatPoints +=(strength.getStat() - tempStr);totalStatPoints +=(dexterity.getStat() - tempDex);totalStatPoints +=(charisma.getStat() - tempCha);strength.setStat(tempStr);dexterity.setStat(tempDex);charisma.setStat(tempCha);}));
 			
 			setStats.displayEvent();
@@ -81,6 +80,13 @@ public class StatManager {
 		
 		confirmStats.displayEvent();
 	}
+		public void resetGame() {
+			totalStatPoints += 5;
+			clearStats();
+		}
+		
+								//	---Strength Methods---	\\
+		
 		public Stat getStrength() {
 			return this.strength;
 		}
@@ -88,6 +94,17 @@ public class StatManager {
 		public boolean rollStrength(Stat opposingStat) {
 			return strength.rolllStat(opposingStat);
 		}
+		
+		public int addStrength() {
+			if(this.strength.getStat() < 3) {
+				return 1;
+			}
+			else {
+				return 2;
+			}
+		}
+		
+								//	---Dexterity Methods---\\\
 		
 		public Stat getDexterity() {
 			return this.dexterity;
@@ -97,6 +114,8 @@ public class StatManager {
 			return dexterity.rolllStat(opposingDexterity);
 		}
 		
+								//	---Charisma Methods--	\\
+		
 		public Stat getCharisma() {
 			return this.charisma;
 		}
@@ -104,6 +123,8 @@ public class StatManager {
 		public boolean rollCharisma(Stat opposingCharisma) {
 			return charisma.rolllStat(opposingCharisma);
 		}
+		
+								//	---Xp Methods---\\
 		
 		public Stat getXp() {
 			return this.xp;
@@ -127,9 +148,10 @@ public class StatManager {
 			
 		}
 		
+								//	---Constructors---	\\
+		
 		public StatManager() {
 			this.level = 1;
-			this.totalStatPoints = 5;
 		}
 	
 }

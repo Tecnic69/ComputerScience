@@ -27,11 +27,10 @@ public class Stat {
 	 */
 	public boolean rolllStat(Stat opposingStat) {
 		int stat = opposingStat.getStat() + 10;
-		System.out.println("opposingStat:  "+ stat);
-		System.out.println("This stat: " + this.statValue);
+		
 		if(this.statValue < stat) {
 			int percChance  = 100 * this.statValue / stat;
-			System.out.println("percChance: " + percChance);
+			
 			if(rand.nextInt(100) < percChance) {
 				return true;
 			}

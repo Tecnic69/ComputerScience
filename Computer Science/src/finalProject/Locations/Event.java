@@ -68,15 +68,18 @@ public class Event {
 		ArrayList<Choice> inventoryChoices = new ArrayList<Choice>();
 		inventoryChoices.add(new Choice("Discard Item", () -> {TextGame.player.discardItem();displayEvent();}));
 		inventoryChoices.add(new Choice("Exit Inventory", () -> {displayEvent();}));
+		inventoryChoices.add(new Choice("Change Equipped Weapon", () -> {TextGame.player.setEquippedWeapon();}));
 		
 		TextGame.player.displayInventory();
 		
 		System.out.println("What would you like to do in your Inventory?");
 		
-		for (int i = 1; i < inventoryChoices.size() + 1;i++ ) {
+		for(int i = 1; i < inventoryChoices.size() + 1;i++ ) {
 			System.out.println(i + ": " + inventoryChoices.get(i - 1));
 		}
 		inventoryChoices.get(input.nextInt() - 1).choiceRun();
+		
+		displayEvent();
 	}
 	
 								//	---NPC Methods---	\\
@@ -111,6 +114,7 @@ public class Event {
 			
 			combatChoices.add(new Choice("Attack: " + TextGame.player.getEquippedWeapon(), () -> {TextGame.player.attack(enemy);enemy.attack(TextGame.player);}));
 			combatChoices.add(new Choice("Switch Weapons", () -> {TextGame.player.setEquippedWeapon();}));
+			combatChoices.add(new Choice("Use your surroundings", () -> {}));
 			
 			for (int i = 1; i < combatChoices.size() + 1;i++ ) {
 				System.out.println(i + ": " + combatChoices.get(i - 1));
