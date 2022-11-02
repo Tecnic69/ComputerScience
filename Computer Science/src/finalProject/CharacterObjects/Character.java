@@ -25,7 +25,6 @@ public class Character {
 	private String name;
 	private int maxHealth;
 	private int tempHealth;
-	private ArrayList<String> dialogue = new ArrayList<String>();
 		//	Stat Manager
 	private StatManager stats = new StatManager();
 		//	inventory variables
@@ -35,6 +34,7 @@ public class Character {
 	private Weapon equippedWeapon;
 		//	npc variables
 	private boolean isNPC = true;
+	private ArrayList<String> dialogue = new ArrayList<String>();
 	private ArrayList<Event> sideQuests = new ArrayList<Event>();
 		//	death events
 	private Event death = new Event("");
@@ -140,6 +140,15 @@ public class Character {
 	
 								//	---Health Methods---  \\
 	
+	public String healthBar() {
+		return tempHealth + " / " + maxHealth;
+	}
+	
+	public void adjustMaxHealth(int adjustment) {
+		maxHealth += adjustment;
+		tempHealth = maxHealth;
+	}
+	
 	public void setHealth(int health) {
 		this.tempHealth = health;
 	}
@@ -155,14 +164,12 @@ public class Character {
 	public void attack(Character enemy) {
 		int damage = equippedWeapon.attack();
 		if(damage > 0) {
+			int extra = rand.nextInt(stats.getStrength().getStat());
 			
-			if(enemy.getStats().rollStrength(this.stats.getStrength())) {
-				
-			}
+			enemy.adjustHealth(-(damage + extra));
 			
-			enemy.adjustHealth(-damage);
 			if(isNPC == false) {
-				System.out.println("You do " + damage + " damage to the " + enemy + ".");
+				System.out.println("You do " + damage + " + " + extra +  " damage to the " + enemy + ".");
 			}
 			else {
 				System.out.println("The " + this.name + " did " + damage + " damage to you.");

@@ -94,6 +94,7 @@ public class Event {
 		
 		NPCChoices.add(new Choice("Talk to " + NPC, () -> {System.out.println(NPC.getDialogue());}));
 		NPCChoices.add(new Choice("Give something to " + NPC, () -> {TextGame.player.giveItem(NPC);}));
+		NPCChoices.add(new Choice("Beg", () -> {}));
 		NPCChoices.add(new Choice("Attack " + NPC, () -> {combatEvent(NPC);}));
 		NPCChoices.add(new Choice("Pickpocket " + NPC, () -> {NPC.pickPocket(TextGame.player);}));
 		
@@ -110,7 +111,7 @@ public class Event {
 		
 			//while both the enemy and the player have over m0 health
 		while(TextGame.player.getHealth() > 0 && enemy.getHealth() > 0) {
-			System.out.println("\nHealth: " + TextGame.player.getHealth());
+			System.out.println("\nHealth: " + TextGame.player.healthBar());
 			
 			combatChoices.add(new Choice("Attack: " + TextGame.player.getEquippedWeapon(), () -> {TextGame.player.attack(enemy);enemy.attack(TextGame.player);}));
 			combatChoices.add(new Choice("Switch Weapons", () -> {TextGame.player.setEquippedWeapon();}));

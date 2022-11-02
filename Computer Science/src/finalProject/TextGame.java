@@ -47,6 +47,14 @@ public class TextGame {
 	
 								//	---Location Creation Methods---	\\
 	
+		/* Location name = new Location();
+		 * 		- Must add Events & choices in method
+		 * 		- location.nextEvent(eventIndex);
+		 * 		- location.addEvent(Event);
+		 * 
+		 */
+	
+	
 	public static Location createPrisonWall() {
 		Location prisonWall = new Location();
 		

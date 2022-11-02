@@ -11,6 +11,7 @@ package finalProject.CharacterObjects;
 
 import java.util.Scanner;
 
+import finalProject.TextGame;
 import finalProject.Locations.Choice;
 import finalProject.Locations.Event;
 
@@ -46,9 +47,9 @@ public class StatManager {
 	}
 	
 	public void clearStats() {
-		this.strength.setStat(0);
-		this.dexterity.setStat(0);
-		this.charisma.setStat(0);
+		this.strength.setStat(1);
+		this.dexterity.setStat(1);
+		this.charisma.setStat(1);
 	}
 	
 	public void setStats(int str, int cha, int dex) {
@@ -56,6 +57,7 @@ public class StatManager {
 		this.charisma.setStat(cha);
 		this.dexterity.setStat(dex);
 	}
+	
 	
 	public void setStats() {
 		
@@ -66,22 +68,22 @@ public class StatManager {
 		while(totalStatPoints > 0) {
 			Event setStats = new Event("You have " + totalStatPoints + " stat points\nPlease chose which stat you would like to increase", false);
 			
-			setStats.addChoice(new Choice("" + strength, () -> {System.out.println("How many points would you like to add to this stat?");int tempInt = input.nextInt();strength.adjustStat(tempInt);totalStatPoints -= tempInt;}));
-			setStats.addChoice(new Choice("" + dexterity, () -> {System.out.println("How many points would you like to add to this stat?");int tempInt = input.nextInt();dexterity.adjustStat(tempInt);totalStatPoints -= tempInt;}));
-			setStats.addChoice(new Choice("" + charisma, () -> {System.out.println("How many points would you like to add to this stat?");int tempInt = input.nextInt();charisma.adjustStat(tempInt);totalStatPoints -= tempInt;}));
+			setStats.addChoice(new Choice("" + strength, () -> {System.out.println("How many points would you like to add to this stat?");int tempInt = input.nextInt();if(tempInt <= totalStatPoints && tempInt > 0) {strength.adjustStat(tempInt);totalStatPoints -= tempInt;} else{System.out.println("You can not add " + tempInt + " stat points.");}}));
+			setStats.addChoice(new Choice("" + dexterity, () -> {System.out.println("How many points would you like to add to this stat?");int tempInt = input.nextInt();if(tempInt <= totalStatPoints && tempInt > 0) {dexterity.adjustStat(tempInt);totalStatPoints -= tempInt;} else{System.out.println("You can not add " + tempInt + " stat points.");}}));
+			setStats.addChoice(new Choice("" + charisma, () -> {System.out.println("How many points would you like to add to this stat?");int tempInt = input.nextInt();if(tempInt <= totalStatPoints && tempInt > 0) {charisma.adjustStat(tempInt);totalStatPoints -= tempInt;} else{System.out.println("You can not add " + tempInt + " stat points.");}}));
 			setStats.addChoice(new Choice("Reset to previous stats", () -> {totalStatPoints +=(strength.getStat() - tempStr);totalStatPoints +=(dexterity.getStat() - tempDex);totalStatPoints +=(charisma.getStat() - tempCha);strength.setStat(tempStr);dexterity.setStat(tempDex);charisma.setStat(tempCha);}));
 			
 			setStats.displayEvent();
 		}
 		Event confirmStats = new Event("Are these the stats you wish to keep?\n" + toString(), false);
 		
-		confirmStats.addChoice(new Choice("Confirm Stats", () -> {}));
+		confirmStats.addChoice(new Choice("Confirm Stats", () -> {TextGame.player.adjustMaxHealth(strength.getStat() - tempStr);}));
 		confirmStats.addChoice(new Choice("Reset Stats", () -> {totalStatPoints +=(strength.getStat() - tempStr);totalStatPoints +=(dexterity.getStat() - tempDex);totalStatPoints +=(charisma.getStat() - tempCha);strength.setStat(tempStr);dexterity.setStat(tempDex);charisma.setStat(tempCha);setStats();}));
 		
 		confirmStats.displayEvent();
 	}
 		public void resetGame() {
-			totalStatPoints += 5;
+			totalStatPoints = 5;
 			clearStats();
 		}
 		
@@ -93,15 +95,6 @@ public class StatManager {
 		
 		public boolean rollStrength(Stat opposingStat) {
 			return strength.rolllStat(opposingStat);
-		}
-		
-		public int addStrength() {
-			if(this.strength.getStat() < 3) {
-				return 1;
-			}
-			else {
-				return 2;
-			}
 		}
 		
 								//	---Dexterity Methods---\\\
@@ -152,7 +145,10 @@ public class StatManager {
 		
 		public StatManager() {
 			this.level = 1;
+			this.strength.adjustStat(1);
+			this.dexterity.adjustStat(1);
+			this.charisma.adjustStat(1);
 		}
-	
+		
 }
 
