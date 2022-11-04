@@ -10,5 +10,51 @@
 package finalProject.CharacterObjects;
 
 public class Item {
+	private String name;
+	private int amount;
+	
+	public String toString() {
+		if(amount > 1) {
+			return this.name + ": " + amount;
+		}
+		else {
+			return this.name;
+		}
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public int getAmount() {
+		return this.amount;
+	}
+	
+	
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	public void addAmount(int amount) {
+		this.amount = amount;
+	}
+	
+	public void adjustAmount(int amount) {
+		this.amount += amount;
+	}
+	
+	public Item() {
+		this.name = "none";
+		this.amount = 1;
+	}
+	
+	public Item(String name) {
+		this.name = name;
+		this.amount = 1;
+	}
+	
+	public Item(String name, int amount) {
+		this.name = name;
+		this.amount = amount;
+	}
 }
 

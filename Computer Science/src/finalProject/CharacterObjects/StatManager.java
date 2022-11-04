@@ -9,6 +9,7 @@
 
 package finalProject.CharacterObjects;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import finalProject.TextGame;
@@ -18,11 +19,13 @@ import finalProject.Locations.Event;
 public class StatManager {
 	Scanner input = new Scanner(System.in);
 	
+	private ArrayList<Stat> friendStats = new ArrayList<Stat>();
+	
 	private Stat strength = new Stat("Strength");
 		/*	
 		 * Strength controls combat scenarious	
 		 * 		- add or subtract Combat Damage	
-		 * 		- add or subtract hit Chance
+		 * 		- add health
 		 * 		!---More Ideas---!
 		 */
 	private Stat dexterity = new Stat("Dexterity");
@@ -85,6 +88,7 @@ public class StatManager {
 		public void resetGame() {
 			totalStatPoints = 5;
 			clearStats();
+			setStats();
 		}
 		
 								//	---Strength Methods---	\\
@@ -139,6 +143,24 @@ public class StatManager {
 			totalStatPoints += 2;
 			setStats();
 			
+		}
+		
+		public void interact(Character npc) {
+			boolean interacted = false;
+			Stat friendStat;
+			for(int i = 0; i < friendStats.size(); i++) {
+				if(("" + npc).equals("" + friendStats.get(i).getName())) {
+					friendStat = friendStats.get(i) ;
+					interacted = true;
+				}
+			}
+		
+			if(!interacted) {
+				friendStats.add(new Stat("" + npc));
+			}
+			else {
+				
+			}
 		}
 		
 								//	---Constructors---	\\

@@ -95,10 +95,7 @@ public class TextGame {
 	public static void run() {
 		player.setHealth(20);
 		player.getStats().resetGame();
-		player.getStats().setStats();
-		Location prisonWall = createPrisonWall();
-		prisonWall.nextEvent(0);
-		
+		createPrisonWall().nextEvent(0);
 	}
 	
 	public static void main (String[] args) {

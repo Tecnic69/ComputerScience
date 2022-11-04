@@ -47,7 +47,13 @@ public class Event {
 				for (int i = 0; i < eventChoices.size();i++ ) {
 					System.out.println(i + ": " + eventChoices.get(i));
 				}
-				getDecision();
+				try {
+					eventChoices.get(input.nextInt()).choiceRun();
+					}
+					catch(Exception e){
+						System.out.println("Invalid input");
+						displayEvent();
+					}
 			}
 				//	Choices will be run stating at 1 for ease of use
 				//	only if default choices are not being used
@@ -58,7 +64,7 @@ public class Event {
 					System.out.println(i + ": " + eventChoices.get(i - 1));
 				}
 				
-				eventChoices.get(input.nextInt() - 1).choiceRun();
+				getDecision();
 			}
 		}
 	}
@@ -67,8 +73,8 @@ public class Event {
 	public void inventoryEvent() {
 		ArrayList<Choice> inventoryChoices = new ArrayList<Choice>();
 		inventoryChoices.add(new Choice("Discard Item", () -> {TextGame.player.discardItem();displayEvent();}));
-		inventoryChoices.add(new Choice("Exit Inventory", () -> {displayEvent();}));
 		inventoryChoices.add(new Choice("Change Equipped Weapon", () -> {TextGame.player.setEquippedWeapon();}));
+		inventoryChoices.add(new Choice("Exit Inventory", () -> {displayEvent();}));
 		
 		TextGame.player.displayInventory();
 		
@@ -77,7 +83,13 @@ public class Event {
 		for(int i = 1; i < inventoryChoices.size() + 1;i++ ) {
 			System.out.println(i + ": " + inventoryChoices.get(i - 1));
 		}
-		inventoryChoices.get(input.nextInt() - 1).choiceRun();
+		try {
+			inventoryChoices.get(input.nextInt() - 1).choiceRun();
+			}
+			catch(Exception e){
+				System.out.println("Invalid input");
+				inventoryEvent();
+			}
 		
 		displayEvent();
 	}
@@ -91,18 +103,23 @@ public class Event {
 	
 	public void NPCEvent(Character NPC) {
 		ArrayList<Choice> NPCChoices = new ArrayList<Choice>();
-		
+		TextGame.player.getStats().interact(NPC);
 		NPCChoices.add(new Choice("Talk to " + NPC, () -> {System.out.println(NPC.getDialogue());}));
 		NPCChoices.add(new Choice("Give something to " + NPC, () -> {TextGame.player.giveItem(NPC);}));
-		NPCChoices.add(new Choice("Beg", () -> {}));
 		NPCChoices.add(new Choice("Attack " + NPC, () -> {combatEvent(NPC);}));
 		NPCChoices.add(new Choice("Pickpocket " + NPC, () -> {NPC.pickPocket(TextGame.player);}));
 		
 		for (int i = 1; i < NPCChoices.size() + 1;i++ ) {
 			System.out.println(i + ": " + NPCChoices.get(i - 1));
 		}
-		NPCChoices.get(input.nextInt() - 1).choiceRun();
-	}
+		try {
+			NPCChoices.get(input.nextInt() - 1).choiceRun();
+			
+			}
+			catch(Exception e){
+				System.out.println("Invalid input");
+				NPCEvent(NPC);
+			}	}
 	
 		//	Method that runs combat Events with NPC's
 	
@@ -121,7 +138,13 @@ public class Event {
 				System.out.println(i + ": " + combatChoices.get(i - 1));
 			}
 			
-			combatChoices.get(input.nextInt() - 1).choiceRun();
+			try {
+				combatChoices.get(input.nextInt() - 1).choiceRun();
+				}
+				catch(Exception e){
+					System.out.println("Invalid input");
+					combatEvent(enemy);
+				}	
 			
 			while(combatChoices.size() != 0) {
 				combatChoices.remove(0);
@@ -145,7 +168,14 @@ public class Event {
 	}
 		//	Collects and runs the decision for the event 
 	public void getDecision() {
-		eventChoices.get(input.nextInt()).choiceRun();
+		try {
+		eventChoices.get(input.nextInt() - 1).choiceRun();
+		}
+		catch(Exception e){
+			System.out.println("Invalid input");
+			displayEvent();
+		}
+			
 	}
 	
 									//	---Constructors---	\\

@@ -16,13 +16,12 @@ public class Weapon extends Item {
 	private int damageMax;
 	private int hitChance;
 	private boolean isRanged = false;
-	private String name;
 	private Ammunition ammo;
 	
-	public String toString() {
+	@Override public String toString() {
 		String summary = "";
 		
-		summary += name + ":\n";
+		summary += ":\n";
 		summary += "     Damage: " + damageMin + " - " + damageMax + "\n";
 		summary += "     Hit Chance: " + hitChance + "%";
 		
@@ -30,7 +29,7 @@ public class Weapon extends Item {
 			summary += "\n     Ammo: " + ammo.getName();
 		}
 		
-		return summary;
+		return (super.toString() + summary);
 	}
 		//	creates an attack using random values between the min and max
 	public int attack() {
@@ -58,24 +57,24 @@ public class Weapon extends Item {
 	
 											//	---Constructors---  \\
 	public Weapon() {
-		this.name = "test";
+		super();
 		this.damageMax = 2;
 		this.damageMin = 1;
 		this.hitChance = 50;
 	}
 		
 	public Weapon(String name, int damageMin, int damageMax, int hitChance) {
+		super(name);
 		this.damageMin = damageMin;
 		this.damageMax = damageMax;
 		this.hitChance = hitChance;
-		this.name = name;
 	}
 
 	public Weapon(String name, int damageMin, int damageMax, int hitChance, Ammunition ammo) {
+		super(name);
 		this.damageMin = damageMin;
 		this.damageMax = damageMax;
 		this.hitChance = hitChance;
-		this.name = name;
 		this.isRanged = true;
 		this.ammo = ammo;
 	}
