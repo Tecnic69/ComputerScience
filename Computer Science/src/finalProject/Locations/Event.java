@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import finalProject.CharacterObjects.Character;
+import finalProject.CharacterObjects.NPC;
 import finalProject.CharacterObjects.Item;
 
 import finalProject.TextGame;
@@ -73,7 +74,7 @@ public class Event {
 	public void inventoryEvent() {
 		ArrayList<Choice> inventoryChoices = new ArrayList<Choice>();
 		inventoryChoices.add(new Choice("Discard Item", () -> {TextGame.player.discardItem();displayEvent();}));
-		inventoryChoices.add(new Choice("Change Equipped Weapon", () -> {TextGame.player.setEquippedWeapon();}));
+		inventoryChoices.add(new Choice("Change Equipped Weapon", () -> {TextGame.player.EquipWeapon();}));
 		inventoryChoices.add(new Choice("Exit Inventory", () -> {displayEvent();}));
 		
 		TextGame.player.displayInventory();
@@ -96,12 +97,12 @@ public class Event {
 	
 								//	---NPC Methods---	\\
 	
-	public void addNPC(Character character) {
+	public void addNPC(NPC character) {
 		eventNPC.add(character);
 		addChoice(new Choice("Interact with " + character, () -> {NPCEvent(character);displayEvent();}));
 	}
 	
-	public void NPCEvent(Character NPC) {
+	public void NPCEvent(NPC NPC) {
 		ArrayList<Choice> NPCChoices = new ArrayList<Choice>();
 		TextGame.player.getStats().interact(NPC);
 		NPCChoices.add(new Choice("Talk to " + NPC, () -> {System.out.println(NPC.getDialogue());}));
@@ -126,12 +127,12 @@ public class Event {
 	public void combatEvent(Character enemy) {
 		ArrayList<Choice> combatChoices = new ArrayList<Choice>();
 		
-			//while both the enemy and the player have over m0 health
+			//while both the enemy and the player have over 0 health
 		while(TextGame.player.getHealth() > 0 && enemy.getHealth() > 0) {
 			System.out.println("\nHealth: " + TextGame.player.healthBar());
 			
 			combatChoices.add(new Choice("Attack: " + TextGame.player.getEquippedWeapon(), () -> {TextGame.player.attack(enemy);enemy.attack(TextGame.player);}));
-			combatChoices.add(new Choice("Switch Weapons", () -> {TextGame.player.setEquippedWeapon();}));
+			combatChoices.add(new Choice("Switch Weapons", () -> {TextGame.player.EquipWeapon();}));
 			combatChoices.add(new Choice("Use your surroundings", () -> {}));
 			
 			for (int i = 1; i < combatChoices.size() + 1;i++ ) {
@@ -145,7 +146,7 @@ public class Event {
 					System.out.println("Invalid input");
 					combatEvent(enemy);
 				}	
-			
+			System.out.println(enemy.healthBar());
 			while(combatChoices.size() != 0) {
 				combatChoices.remove(0);
 			}
@@ -183,7 +184,7 @@ public class Event {
 	public Event() {
 		this.description = "test";
 		eventChoices.add(new Choice("Show Inventory", () -> {inventoryEvent();}));
-		addNPC(new Character());
+		addNPC(new NPC());
 	}
 	
 	public Event(String description) {

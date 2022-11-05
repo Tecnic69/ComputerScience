@@ -25,7 +25,7 @@ public class TextGame {
 	static Weapon oldBow = new Weapon("Old Bow", 6, 9, 55, arrows);
 	
 		//	Main Player declaration
-	public static Character player =  new Character(false);
+	public static Character player =  new Character();
 		
 								//	---Character Creation Methods---\\
 	
@@ -35,8 +35,8 @@ public class TextGame {
 		 * 		- Potential side quest must be added within the function
 		 */
 		
-	public static Character createOldMan() {
-		Character oldMan = new Character("Old man", cane, 6, 20);
+	public static NPC createOldMan() {
+		NPC oldMan = new NPC("Old man", cane, 6, 20);
 		
 		oldMan.addDialogue("Hello yourng wipper snapper");
 		oldMan.addDialogue("...Oh did you say something");
@@ -93,7 +93,7 @@ public class TextGame {
 	}
 	
 	public static void run() {
-		player.setHealth(20);
+		player.setMaxHealth(20);
 		player.getStats().resetGame();
 		createPrisonWall().nextEvent(0);
 	}

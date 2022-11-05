@@ -41,13 +41,13 @@ public class Weapon extends Item {
 				return rand.nextInt(damageMax - damageMin) + damageMin;
 			}
 			else {
-				if (ammo.useAmmo() == true) {
-					return rand.nextInt(damageMax - damageMin) + damageMin;
-				}
-				else {
-					System.out.println("You do not have any ammo for that weapon.");
+//				if (ammo == true) {
+//					return rand.nextInt(damageMax - damageMin) + damageMin;
+//				}
+//				else {
+//					System.out.println("You do not have any ammo for that weapon.");
 					return 0;
-				}
+//				}
 			}
 		}
 		else {
