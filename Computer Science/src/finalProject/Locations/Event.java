@@ -102,6 +102,7 @@ public class Event {
 		addChoice(new Choice("Interact with " + character, () -> {NPCEvent(character);displayEvent();}));
 	}
 	
+	//	Events that are created when an NPC is interacted with
 	public void NPCEvent(NPC NPC) {
 		ArrayList<Choice> NPCChoices = new ArrayList<Choice>();
 		TextGame.player.getStats().interact(NPC);
@@ -109,6 +110,7 @@ public class Event {
 		NPCChoices.add(new Choice("Give something to " + NPC, () -> {TextGame.player.giveItem(NPC);}));
 		NPCChoices.add(new Choice("Attack " + NPC, () -> {combatEvent(NPC);}));
 		NPCChoices.add(new Choice("Pickpocket " + NPC, () -> {NPC.pickPocket(TextGame.player);}));
+		NPCChoices.add(new Choice("Back", () -> {displayEvent();}));
 		
 		for (int i = 1; i < NPCChoices.size() + 1;i++ ) {
 			System.out.println(i + ": " + NPCChoices.get(i - 1));
@@ -134,6 +136,7 @@ public class Event {
 			combatChoices.add(new Choice("Attack: " + TextGame.player.getEquippedWeapon(), () -> {TextGame.player.attack(enemy);enemy.attack(TextGame.player);}));
 			combatChoices.add(new Choice("Switch Weapons", () -> {TextGame.player.EquipWeapon();}));
 			combatChoices.add(new Choice("Use your surroundings", () -> {}));
+			combatChoices.add(new Choice("Run", () -> {if(TextGame.player.getStats().rollDexterity(enemy.getStats().getDexterity())) {System.out.println("You ran");displayEvent();} else {System.out.println("Failed"); enemy.attack(TextGame.player);}}));
 			
 			for (int i = 1; i < combatChoices.size() + 1;i++ ) {
 				System.out.println(i + ": " + combatChoices.get(i - 1));
@@ -146,10 +149,7 @@ public class Event {
 					System.out.println("Invalid input");
 					combatEvent(enemy);
 				}	
-			System.out.println(enemy.healthBar());
-			while(combatChoices.size() != 0) {
-				combatChoices.remove(0);
-			}
+			combatChoices.clear();
 		}
 		if(TextGame.player.getHealth() < 0) {
 			TextGame.player.displayDeathEvent();
@@ -175,8 +175,7 @@ public class Event {
 		catch(Exception e){
 			System.out.println("Invalid input");
 			displayEvent();
-		}
-			
+		}	
 	}
 	
 									//	---Constructors---	\\

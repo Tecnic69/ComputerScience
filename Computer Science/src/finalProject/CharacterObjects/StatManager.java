@@ -147,19 +147,17 @@ public class StatManager {
 		
 		public void interact(Character npc) {
 			boolean interacted = false;
-			Stat friendStat;
+//			Stat friendStat;
 			for(int i = 0; i < friendStats.size(); i++) {
 				if(("" + npc).equals("" + friendStats.get(i).getName())) {
-					friendStat = friendStats.get(i) ;
+//					friendStat = friendStats.get(i) ;
 					interacted = true;
+					break;
 				}
 			}
 		
 			if(!interacted) {
 				friendStats.add(new Stat("" + npc));
-			}
-			else {
-				
 			}
 		}
 		
