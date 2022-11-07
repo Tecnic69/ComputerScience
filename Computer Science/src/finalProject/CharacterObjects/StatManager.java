@@ -145,7 +145,9 @@ public class StatManager {
 			
 		}
 		
-		public void interact(Character npc) {
+		
+			//	detects if the player has ever interacted with the NPC and creates a stat if there isn't already one 
+		public void interact(NPC npc) {
 			boolean interacted = false;
 //			Stat friendStat;
 			for(int i = 0; i < friendStats.size(); i++) {
