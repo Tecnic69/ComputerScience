@@ -2,7 +2,9 @@
  * Author: Neumann Davila
  * Date:   Nov 4, 2022
  * Description:
- *
+ * An extension of the Character class
+ * 		- Overrides certain functions to prevent user prompt
+ * 		- Implements FriendStats for custom interactions and outcomes
  *
  * 
  */
@@ -20,6 +22,8 @@ public class NPC extends Character {
 	private ArrayList<String> neutralReacts = new ArrayList<String>();
 	private ArrayList<String> negativeReacts = new ArrayList<String>();
 	private ArrayList<Event> sideQuests = new ArrayList<Event>();
+	private int interactions = 0;
+	private int giftsRecieved = 0;
 	
 								//	----Interaction---	\\
 	
@@ -36,6 +40,13 @@ public class NPC extends Character {
 	}
 	
 	public String getDialogue(Stat friendStat) {
+		
+		if(interactions < 3) {
+			TextGame.player.getStats().adjustFriendStat(friendStat, 5);
+			interactions++;
+			System.out.println("" + friendStat);
+		}
+		
 		int friendValue = friendStat.getStat();
 		
 		if(friendValue > 75) {
@@ -54,6 +65,15 @@ public class NPC extends Character {
 	}
 	
 								//	---Misc---	\\
+	
+	public void recieveItem(Stat friendStat, Item item) {
+		addItem(item);
+		
+		if (giftsRecieved < 2) {
+			TextGame.player.getStats().adjustFriendStat(friendStat, 15);
+			giftsRecieved++;
+		}
+	}
 	
 	@Override public void attack(Character enemy) {
 		int damage = getEquippedWeapon().attack();

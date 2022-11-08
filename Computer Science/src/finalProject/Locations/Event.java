@@ -116,15 +116,15 @@ public class Event {
 		}
 	}
 	
-	//	Events that are created when an NPC is interacted with
+		//	Events that are created when an NPC is interacted with
 	public void NPCEvent(NPC NPC) {
 		ArrayList<Choice> NPCChoices = new ArrayList<Choice>();
 		Stat friendStat = TextGame.player.getStats().getFriendStat(NPC);
 		
 		NPCChoices.add(new Choice("Talk to " + NPC, () -> {System.out.println(NPC.getDialogue(friendStat));}));
 		NPCChoices.add(new Choice("Give something to " + NPC, () -> {TextGame.player.giveItem(NPC);}));
-		NPCChoices.add(new Choice("Attack " + NPC, () -> {combatEvent(NPC);}));
-		NPCChoices.add(new Choice("Pickpocket " + NPC, () -> {NPC.pickPocket(TextGame.player);}));
+		NPCChoices.add(new Choice("Attack " + NPC, () -> {combatEvent(NPC);TextGame.player.getStats().adjustFriendStat(friendStat, -50);}));
+		NPCChoices.add(new Choice("Pickpocket " + NPC, () -> {NPC.pickPocket(TextGame.player);TextGame.player.getStats().adjustFriendStat(friendStat, -20);}));
 		NPCChoices.add(new Choice("Back", () -> {displayEvent();}));
 		
 		for (int i = 1; i < NPCChoices.size() + 1;i++ ) {

@@ -10,6 +10,7 @@
 package finalProject.CharacterObjects;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import finalProject.TextGame;
@@ -18,6 +19,7 @@ import finalProject.Locations.Event;
 
 public class StatManager {
 	Scanner input = new Scanner(System.in);
+	Random rand = new Random();
 	
 	private ArrayList<Stat> friendStats = new ArrayList<Stat>();
 	
@@ -146,7 +148,7 @@ public class StatManager {
 			
 		}
 		
-					//	---Friend Stats---	\\
+								//	---Friend Stats---	\\
 		
 			//	detects if the player has ever interacted with the NPC and creates a stat if there isn't already one 
 		public Stat getFriendStat(NPC npc) {
@@ -156,8 +158,12 @@ public class StatManager {
 				}
 			}
 		
-				friendStats.add(new Stat("" + npc, 50));
+				friendStats.add(new Stat("" + npc, 26));
 				return friendStats.get(friendStats.size() - 1);
+		}
+		
+		public void adjustFriendStat(Stat friendStat, int adjustment) {
+			friendStat.adjustStat(adjustment + rand.nextInt(charisma.getStat()));
 		}
 		
 								//	---Constructors---	\\

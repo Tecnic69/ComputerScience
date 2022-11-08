@@ -3,7 +3,8 @@
  * Date:   Oct 4, 2022
  * TO DO:
  * 1.) Money System
- * 2.) 
+ * 2.) Usable Items
+ * 3.) NPC interactions with friend Stats
  */
 
 package finalProject;
@@ -33,11 +34,12 @@ public class TextGame {
 		/* 
 		 * NPC = Character("Name", health, XP gained)
 		 * 		- Dialogue must be added within functions
+		 * 				- AddDialogue("STRING", int)
+		 * 					- int = 1: positiveReaction; 0: neutral; -1: negative
 		 * 		- Stats must be added within function
 		 * 		- Potential side quest must be added within the function
-		 * 
-		 * 		- AddDialogue("STRING", int)
-		 * 			- int = 1: positiveReaction; 0: neutral; -1: negative
+		 * 		- All Items must be added within the function
+		 * 		
 		 */
 		
 	public static NPC createOldMan() {

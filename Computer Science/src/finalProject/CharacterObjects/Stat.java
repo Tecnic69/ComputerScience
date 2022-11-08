@@ -18,15 +18,15 @@ public class Stat {
 	private int statValue;
 	
 	/*
-	 * Opposing stat + Your stat -> succes/failure
+	 * Opposing stat + Your stat -> success/failure
 	 * 
-	 * The process I go through to calculate succes/failure
+	 * The process I go through to calculate success/failure
 	 * 	- If I add 5 t the opposing stat then when challenging 
 	 * 		the stat the 100% success rate is now 5 over the base stat 
 	 * 
 	 */
 	public boolean rolllStat(Stat opposingStat) {
-		int stat = opposingStat.getStat() + 10;
+		int stat = opposingStat.getStat() + 7;
 		
 		if(this.statValue < stat) {
 			int percChance  = 100 * this.statValue / stat;
