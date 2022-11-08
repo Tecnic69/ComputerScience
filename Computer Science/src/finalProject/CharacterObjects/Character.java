@@ -142,24 +142,7 @@ public class Character {
 								//	---Inventory Methods---  \\
 	
 		
-		//	Adds a general item to the inventory
-	public void addItem(Item newItem) {
-		if(lastEmptyCell < 8) {
-			this.inventory[this.lastEmptyCell] = newItem;
-			this.lastEmptyCell += 1;
-			
-			if(newItem instanceof Weapon) {
-				weapons.add((Weapon) newItem);
-				if(weapons.size() == 1) {
-					equippedWeapon = (Weapon) newItem;
-				}
-			}
-			
-		}
-		else {
-			System.out.println("You have no space in your inventory!");
-		}
-	}
+	
 	
 	public void displayInventory() {
 		for (int i = 0; i < lastEmptyCell; i++) {
@@ -175,15 +158,11 @@ public class Character {
 		int discardIndex = input.nextInt();
 		
 		if(discardIndex < 9) {
+			Event confirmDiscard = new Event("Are you sure you want to discard:\n" + inventory[discardIndex - 1], false);
+			confirmDiscard.addChoice(new Choice("Yes", () -> {removeItem(discardIndex);}));
+			confirmDiscard.addChoice(new Choice("No", () -> {}));
+			confirmDiscard.displayEvent();
 			
-			System.out.println("Are you sure you want to discard:\n" + inventory[discardIndex - 1]);
-			System.out.println("1: Yes\n2: No");
-			if (input.nextInt() == 1) {
-				removeItem(discardIndex);
-			}
-			else {
-				discardItem();
-			}
 		}
 		else if(discardIndex == 9) {
 			
@@ -194,7 +173,7 @@ public class Character {
 		}
 	}
 	
-	public void giveItem(Character recipiant) {
+	public void giveItem(NPC recipiant) {
 		displayInventory();
 		System.out.println("What Item would you like to give to " + recipiant + "?\n9: Exit");
 		int discardIndex = input.nextInt();
@@ -202,21 +181,17 @@ public class Character {
 		if(discardIndex < 9){
 			Item tempItem = inventory[discardIndex - 1];
 			
-			System.out.println("Are you sure you want to give:\n" + tempItem);
-			System.out.println("1: Yes\n2: No");
-			int tempInput = input.nextInt();
-			if (tempInput == 1) {
-				recipiant.addItem(inventory[discardIndex - 1]);
-				removeItem(discardIndex);
-				
-				cycleInventory();
-			}
+			Event confirmGive = new Event("Are you sure you want to give:\n" + tempItem, false);
+			confirmGive.addChoice(new Choice("Yes", () -> {recipiant.addItem(tempItem);removeItem(discardIndex);}));
+			confirmGive.addChoice(new Choice("No", () -> {}));
+			
+			confirmGive.displayEvent();
 		}
 		else if(discardIndex == 9) {
 			
 		}
 		else {
-			System.out.println("Invalid Input");
+			System.out.println("Invalid Input: Give");
 			giveItem(recipiant);
 		}
 	}
@@ -229,17 +204,16 @@ public class Character {
 			System.out.println("What would you like to take?\n9: Exit");
 			int stealIndex = input.nextInt();
 			
-			if(stealIndex < 9 || stealIndex > 0) {
+			if(stealIndex < 9 && stealIndex > 0) {
 				recipiant.addItem(inventory[stealIndex - 1]);
 				removeItem(stealIndex);
 				
-				cycleInventory();
 			}
 			else if (stealIndex == 9) {
 				
 			}
 			else {
-				System.out.println("Invalid Input");
+				System.out.println("Invalid Input: Steal");
 				pickPocket(recipiant);
 			}
 		}
@@ -248,8 +222,42 @@ public class Character {
 		}
 	}
 	
+	//	Adds a general item to the inventory
+	public void addItem(Item newItem) {
+		if(lastEmptyCell < 8) {
+			this.inventory[this.lastEmptyCell] = newItem;
+			this.lastEmptyCell += 1;
+
+			
+			if(newItem instanceof Weapon) {
+				weapons.add((Weapon) newItem);
+				if(weapons.size() == 1) {
+					equippedWeapon = (Weapon) newItem;
+				}
+			}
+			
+		}
+		else {
+			System.out.println("You have no space in your inventory!");
+		}
+	}
 	
-	public void cycleInventory() {
+	public void removeItem(int index) {
+		if(inventory[index - 1] instanceof Weapon) {
+			if(this.equippedWeapon == inventory[index - 1]) {
+				weapons.remove(inventory[index - 1]);
+				inventory[index - 1] = null;
+				EquipWeapon();
+			}
+			else {
+				weapons.remove(inventory[index - 1]);
+				inventory[index - 1] = null;
+			}
+		}
+		else {
+			inventory[index - 1] = null;
+		}
+		
 		for(int i = 0; i < lastEmptyCell; i++) {
 			if (inventory[i] == null) {
 				inventory[i] = inventory[i + 1];
@@ -258,26 +266,9 @@ public class Character {
 		}
 		lastEmptyCell--;
 	}
-	
-	public void removeItem(int index) {
-		if(inventory[index - 1] instanceof Weapon) {
-			inventory[index - 1] = null;
-			weapons.remove(inventory[index - 1]);
-			
-			EquipWeapon();
-		}
-		else {
-			inventory[index - 1] = null;
-		}
-		
-		cycleInventory();
-	}
 								//	---Constructors---  \\}
 	
 	public Character() {
-		Event gameOver = new Event("You Died", false);
-		gameOver.addChoice(new Choice("Restart Game", () -> {TextGame.run();}));
-		setDeathEvent(gameOver);
 		this.stats.getXp().setStat(0);
 	}
 	

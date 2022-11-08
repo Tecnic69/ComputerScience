@@ -85,6 +85,7 @@ public class StatManager {
 		
 		confirmStats.displayEvent();
 	}
+	
 		public void resetGame() {
 			totalStatPoints = 5;
 			clearStats();
@@ -145,22 +146,18 @@ public class StatManager {
 			
 		}
 		
+					//	---Friend Stats---	\\
 		
 			//	detects if the player has ever interacted with the NPC and creates a stat if there isn't already one 
-		public void interact(NPC npc) {
-			boolean interacted = false;
-//			Stat friendStat;
+		public Stat getFriendStat(NPC npc) {
 			for(int i = 0; i < friendStats.size(); i++) {
 				if(("" + npc).equals("" + friendStats.get(i).getName())) {
-//					friendStat = friendStats.get(i) ;
-					interacted = true;
-					break;
+					return friendStats.get(i);
 				}
 			}
 		
-			if(!interacted) {
-				friendStats.add(new Stat("" + npc));
-			}
+				friendStats.add(new Stat("" + npc, 50));
+				return friendStats.get(friendStats.size() - 1);
 		}
 		
 								//	---Constructors---	\\

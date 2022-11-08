@@ -19,6 +19,7 @@ import java.util.Scanner;
 
 import finalProject.CharacterObjects.Character;
 import finalProject.CharacterObjects.NPC;
+import finalProject.CharacterObjects.Stat;
 import finalProject.CharacterObjects.Item;
 
 import finalProject.TextGame;
@@ -49,10 +50,11 @@ public class Event {
 					System.out.println(i + ": " + eventChoices.get(i));
 				}
 				try {
-					eventChoices.get(input.nextInt()).choiceRun();
+					int tempInt = Integer.parseInt(input.nextLine().strip());
+					eventChoices.get(tempInt).choiceRun();
 					}
 					catch(Exception e){
-						System.out.println("Invalid input");
+						System.out.println("Invalid Input: Event");
 						displayEvent();
 					}
 			}
@@ -85,10 +87,11 @@ public class Event {
 			System.out.println(i + ": " + inventoryChoices.get(i - 1));
 		}
 		try {
-			inventoryChoices.get(input.nextInt() - 1).choiceRun();
+			int tempInt = Integer.parseInt(input.nextLine().strip());
+			inventoryChoices.get(tempInt - 1).choiceRun();
 			}
 			catch(Exception e){
-				System.out.println("Invalid input");
+				System.out.println("Invalid input: Inventory");
 				inventoryEvent();
 			}
 		
@@ -97,16 +100,28 @@ public class Event {
 	
 								//	---NPC Methods---	\\
 	
-	public void addNPC(NPC character) {
-		eventNPC.add(character);
-		addChoice(new Choice("Interact with " + character, () -> {NPCEvent(character);displayEvent();}));
+	public void addNPC(NPC npc) {
+		eventNPC.add(npc);
+		addChoice(new Choice("Interact with " + npc, () -> {NPCEvent(npc);displayEvent();}));
+	}
+	
+	public void removeNPC(NPC npc) {
+		eventNPC.remove(npc);
+		
+		for(int i = 0; i < eventChoices.size(); i++) {
+			if(("Interact with " + npc).equals("" + eventChoices.get(i))) {
+				eventChoices.remove(i);
+				break;
+			}
+		}
 	}
 	
 	//	Events that are created when an NPC is interacted with
 	public void NPCEvent(NPC NPC) {
 		ArrayList<Choice> NPCChoices = new ArrayList<Choice>();
-		TextGame.player.getStats().interact(NPC);
-		NPCChoices.add(new Choice("Talk to " + NPC, () -> {System.out.println(NPC.getDialogue());}));
+		Stat friendStat = TextGame.player.getStats().getFriendStat(NPC);
+		
+		NPCChoices.add(new Choice("Talk to " + NPC, () -> {System.out.println(NPC.getDialogue(friendStat));}));
 		NPCChoices.add(new Choice("Give something to " + NPC, () -> {TextGame.player.giveItem(NPC);}));
 		NPCChoices.add(new Choice("Attack " + NPC, () -> {combatEvent(NPC);}));
 		NPCChoices.add(new Choice("Pickpocket " + NPC, () -> {NPC.pickPocket(TextGame.player);}));
@@ -115,48 +130,52 @@ public class Event {
 		for (int i = 1; i < NPCChoices.size() + 1;i++ ) {
 			System.out.println(i + ": " + NPCChoices.get(i - 1));
 		}
+		
 		try {
-			NPCChoices.get(input.nextInt() - 1).choiceRun();
+			int tempInt = Integer.parseInt(input.nextLine().strip());
+			NPCChoices.get(tempInt - 1).choiceRun();
 			
 			}
 			catch(Exception e){
-				System.out.println("Invalid input");
+				System.out.println("Invalid input: NPC");
 				NPCEvent(NPC);
-			}	}
+			}	
+		}
 	
 		//	Method that runs combat Events with NPC's
 	
-	public void combatEvent(Character enemy) {
+	public void combatEvent(NPC enemy) {
 		ArrayList<Choice> combatChoices = new ArrayList<Choice>();
-		
+		combatChoices.add(new Choice("Attack: " + TextGame.player.getEquippedWeapon(), () -> {TextGame.player.attack(enemy);enemy.attack(TextGame.player);}));
+		combatChoices.add(new Choice("Switch Weapons", () -> {TextGame.player.EquipWeapon();combatEvent(enemy);}));
+		combatChoices.add(new Choice("Use your surroundings", () -> {}));
+		combatChoices.add(new Choice("Run", () -> {if(TextGame.player.getStats().rollDexterity(enemy.getStats().getDexterity())) {System.out.println("You ran");displayEvent();} else {System.out.println("Failed"); enemy.attack(TextGame.player);}}));
+
 			//while both the enemy and the player have over 0 health
 		while(TextGame.player.getHealth() > 0 && enemy.getHealth() > 0) {
-			System.out.println("\nHealth: " + TextGame.player.healthBar());
-			
-			combatChoices.add(new Choice("Attack: " + TextGame.player.getEquippedWeapon(), () -> {TextGame.player.attack(enemy);enemy.attack(TextGame.player);}));
-			combatChoices.add(new Choice("Switch Weapons", () -> {TextGame.player.EquipWeapon();}));
-			combatChoices.add(new Choice("Use your surroundings", () -> {}));
-			combatChoices.add(new Choice("Run", () -> {if(TextGame.player.getStats().rollDexterity(enemy.getStats().getDexterity())) {System.out.println("You ran");displayEvent();} else {System.out.println("Failed"); enemy.attack(TextGame.player);}}));
-			
+			System.out.println("\nHealth: " + TextGame.player.healthBar() + "\n" + enemy + ": " + enemy.getHealth());
+					
 			for (int i = 1; i < combatChoices.size() + 1;i++ ) {
 				System.out.println(i + ": " + combatChoices.get(i - 1));
 			}
 			
 			try {
-				combatChoices.get(input.nextInt() - 1).choiceRun();
-				}
-				catch(Exception e){
-					System.out.println("Invalid input");
-					combatEvent(enemy);
-				}	
-			combatChoices.clear();
+				int tempInt = Integer.parseInt(input.nextLine().strip());
+				combatChoices.get(tempInt - 1).choiceRun();
+			}
+			catch(Exception e){
+					System.out.println("Invalid input: Combat");
+					removeNPC(enemy);
+			}	
 		}
-		if(TextGame.player.getHealth() < 0) {
+		
+		if(TextGame.player.getHealth() <= 0) {
 			TextGame.player.displayDeathEvent();
 		}
 		else {
 			System.out.println("\nYou killed the " + enemy);
 			enemy.displayDeathEvent();
+			eventNPC.remove(enemy);
 		}
 		
 	}
@@ -170,10 +189,11 @@ public class Event {
 		//	Collects and runs the decision for the event 
 	public void getDecision() {
 		try {
-		eventChoices.get(input.nextInt() - 1).choiceRun();
+		int tempInt = Integer.parseInt(input.nextLine().strip());
+		eventChoices.get(tempInt - 1).choiceRun();
 		}
 		catch(Exception e){
-			System.out.println("Invalid input");
+			System.out.println("Invalid input: Decision");
 			displayEvent();
 		}	
 	}

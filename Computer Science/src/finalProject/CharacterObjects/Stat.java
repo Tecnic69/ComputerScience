@@ -66,5 +66,10 @@ public class Stat {
 	public Stat(String name) {
 		this.name = name;
 	}
+	
+	public Stat(String name, int statValue) {
+		this.name = name;
+		this.statValue = statValue;
+	}
 }
 

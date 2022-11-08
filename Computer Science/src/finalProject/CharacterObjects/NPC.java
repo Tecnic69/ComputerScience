@@ -16,17 +16,37 @@ import finalProject.Locations.Event;
 
 public class NPC extends Character {
 
-	private ArrayList<String> dialogue = new ArrayList<String>();
+	private ArrayList<String> positiveReacts = new ArrayList<String>();
+	private ArrayList<String> neutralReacts = new ArrayList<String>();
+	private ArrayList<String> negativeReacts = new ArrayList<String>();
 	private ArrayList<Event> sideQuests = new ArrayList<Event>();
 	
 								//	----Interaction---	\\
 	
-	public void addDialogue(String newDialogue) {
-		dialogue.add(newDialogue);
+	public void addDialogue(String newDialogue, int type) {
+		if(type == 1) {
+			positiveReacts.add(newDialogue);
+		}
+		else if(type == 0) {
+			neutralReacts.add(newDialogue);
+		}
+		else {
+			negativeReacts.add(newDialogue);
+		}
 	}
 	
-	public String getDialogue() {
-		return dialogue.get(rand.nextInt((dialogue.size())));
+	public String getDialogue(Stat friendStat) {
+		int friendValue = friendStat.getStat();
+		
+		if(friendValue > 75) {
+			return positiveReacts.get(rand.nextInt(positiveReacts.size()));
+		}
+		else if(friendValue > 25) {
+			return neutralReacts.get(rand.nextInt(neutralReacts.size()));
+		}
+		else {
+			return negativeReacts.get(rand.nextInt(negativeReacts.size()));
+		}
 	}
 	
 	public void addSideQuest(Event newQuest) {
@@ -63,7 +83,8 @@ public class NPC extends Character {
 	
 	@Override public void displayDeathEvent() {
 		TextGame.player.getStats().addXp(getStats().getXp().getStat());
-		displayDeathEvent();
+		System.out.println("test: Death");
+		getDeathEvent().displayEvent();
 	}
 	
 	
@@ -71,9 +92,8 @@ public class NPC extends Character {
 		super();
 	}
 	
-	public NPC(String name, Weapon weapon, int health, int xp) {
+	public NPC(String name, int health, int xp) {
 		setName(name);
-		addItem(weapon);
 		adjustMaxHealth(health);
 		getStats().getXp().setStat(xp);
 	}

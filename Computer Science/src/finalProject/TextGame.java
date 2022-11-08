@@ -2,7 +2,8 @@
  * Author: Neumann Davila
  * Date:   Oct 4, 2022
  * TO DO:
- * 1.)
+ * 1.) Money System
+ * 2.) 
  */
 
 package finalProject;
@@ -29,17 +30,28 @@ public class TextGame {
 		
 								//	---Character Creation Methods---\\
 	
-		/* Aggressive NPC = Character("Name" , weapon, health, XP gained)
+		/* 
+		 * NPC = Character("Name", health, XP gained)
 		 * 		- Dialogue must be added within functions
 		 * 		- Stats must be added within function
 		 * 		- Potential side quest must be added within the function
+		 * 
+		 * 		- AddDialogue("STRING", int)
+		 * 			- int = 1: positiveReaction; 0: neutral; -1: negative
 		 */
 		
 	public static NPC createOldMan() {
-		NPC oldMan = new NPC("Old man", cane, 6, 20);
+		NPC oldMan = new NPC("Old man", 6, 20);
 		
-		oldMan.addDialogue("Hello yourng wipper snapper");
-		oldMan.addDialogue("...Oh did you say something");
+		oldMan.addItem(cane);
+		
+		oldMan.addDialogue("Hello yourng wipper snapper", 0);
+		oldMan.addDialogue("...Oh did you say something", 0);
+		
+		Event death = new Event("You see the corpse of the man you jsut killed\nWhat wold you like to do", false);
+		death.addChoice(new Choice("Loot Body", () -> {}));
+		death.addChoice(new Choice("Leave", () -> {}));
+		oldMan.setDeathEvent(death);
 				
 		return oldMan;
 	}
@@ -47,7 +59,8 @@ public class TextGame {
 	
 								//	---Location Creation Methods---	\\
 	
-		/* Location name = new Location();
+		/* 
+		 * Location name = new Location();
 		 * 		- Must add Events & choices in method
 		 * 		- location.nextEvent(eventIndex);
 		 * 		- location.addEvent(Event);
@@ -95,6 +108,13 @@ public class TextGame {
 	public static void run() {
 		player.setMaxHealth(20);
 		player.getStats().resetGame();
+		
+		Event gameOver = new Event("You Died", false);
+		gameOver.addChoice(new Choice("Restart Game", () -> {TextGame.run();}));
+		gameOver.addChoice(new Choice("Quit", () -> {}));
+		player.setDeathEvent(gameOver);
+		
+		
 		createPrisonWall().nextEvent(0);
 	}
 	
