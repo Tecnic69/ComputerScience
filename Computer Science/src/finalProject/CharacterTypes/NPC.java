@@ -9,11 +9,13 @@
  * 
  */
 
-package finalProject.CharacterObjects;
+package finalProject.CharacterTypes;
 
 import java.util.ArrayList;
 
 import finalProject.TextGame;
+import finalProject.Items.Item;
+import finalProject.Items.Weapon;
 import finalProject.Locations.Event;
 
 public class NPC extends Character {
@@ -91,7 +93,7 @@ public class NPC extends Character {
 		
 	@Override public void EquipWeapon() {
 		if(getWeapons().size() == 0) {
-			setEquippedWeapon(new Weapon("Fist", 1, 2, 10));
+			setEquippedWeapon(new Weapon());
 		}
 		else if (getWeapons().size() == 1){
 			setEquippedWeapon(getWeapons().get(0));
@@ -113,9 +115,9 @@ public class NPC extends Character {
 	}
 	
 	public NPC(String name, int health, int xp) {
-		setName(name);
+		this.name = name;
 		adjustMaxHealth(health);
-		getStats().getXp().setStat(xp);
+		this.stats.getXp().setStat(xp);
 	}
 }
 

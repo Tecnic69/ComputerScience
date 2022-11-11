@@ -7,7 +7,7 @@
  * 
  */
 
-package finalProject.CharacterObjects;
+package finalProject.Items;
 
 public class Ammunition extends Item {
 	

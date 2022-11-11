@@ -7,7 +7,7 @@
  * 
  */
 
-package finalProject.CharacterObjects;
+package finalProject.CharacterTypes;
 
 import java.util.ArrayList;
 import java.util.Random;

@@ -7,11 +7,13 @@
  * 
  */
 
-package finalProject.CharacterObjects;
+package finalProject.Items;
 
 public class Item {
-	private String name;
-	private int amount;
+	protected String name;
+	protected int amount;
+	protected int price;
+	protected boolean stackable;
 	
 	public String toString() {
 		if(amount > 1) {
@@ -25,7 +27,17 @@ public class Item {
 	public String getName() {
 		return this.name;
 	}
+	public int getPrice() {
+		return this.price;
+	}
 	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public boolean isStackable() {
+		return stackable;
+	}
 	public int getAmount() {
 		return this.amount;
 	}
@@ -45,16 +57,19 @@ public class Item {
 	public Item() {
 		this.name = "none";
 		this.amount = 1;
+		this.stackable = true;
 	}
 	
-	public Item(String name) {
+	public Item(String name, int price) {
 		this.name = name;
 		this.amount = 1;
+		this.stackable = true;
 	}
 	
-	public Item(String name, int amount) {
+	public Item(String name, int amount, int price) {
 		this.name = name;
 		this.amount = amount;
+		this.stackable = true;
 	}
 }
 

@@ -2,12 +2,12 @@
  * Author: Neumann Davila
  * Date:   Oct 6, 2022
  * Description:
- * Stores Player Data --> Name; Health; Inventory; Stats?
+ * Stores Player Data --> Name; Health; Inventory; StatManger
  *
  * 
  */
 
-package finalProject.CharacterObjects;
+package finalProject.CharacterTypes;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,25 +15,26 @@ import java.util.Scanner;
 
 import finalProject.Locations.Event;
 import finalProject.Locations.Choice;
-import finalProject.TextGame;
+import finalProject.Items.*;
 
 
 public class Character {
 	Scanner input = new Scanner(System.in);
 	Random rand = new Random();
 	
-	private String name;
-	private int maxHealth = 0;
-	private int tempHealth;
+	protected String name;
+	protected int maxHealth = 0;
+	protected int tempHealth;
 		//	Stat Manager
-	private StatManager stats = new StatManager();
+	protected StatManager stats = new StatManager();
 		//	inventory variables
-	private int lastEmptyCell = 0;
-	private Item[] inventory = new Item[8];
-	private ArrayList<Weapon> weapons = new ArrayList<Weapon>();
-	private Weapon equippedWeapon = null;	
+	protected int lastEmptyCell = 0;
+	protected Item[] inventory = new Item[8];
+	protected ArrayList<Weapon> weapons = new ArrayList<Weapon>();
+	protected Weapon equippedWeapon = null;	
+	protected int money = 0;
 		//	death events
-	private Event death;
+	protected Event death;
 		
 										//	---MISC---  \\
 	
@@ -128,7 +129,7 @@ public class Character {
 	public void EquipWeapon() {
 
 		if(weapons.size() == 0) {
-			equippedWeapon = new Weapon("Fist", 1, 2, 10);
+			equippedWeapon = new Weapon();
 		}
 		else {
 			for(int i = 0; i < weapons.size(); i++) {
@@ -224,21 +225,32 @@ public class Character {
 	
 	//	Adds a general item to the inventory
 	public void addItem(Item newItem) {
-		if(lastEmptyCell < 8) {
-			this.inventory[this.lastEmptyCell] = newItem;
-			this.lastEmptyCell += 1;
-
-			
-			if(newItem instanceof Weapon) {
-				weapons.add((Weapon) newItem);
-				if(weapons.size() == 1) {
-					equippedWeapon = (Weapon) newItem;
+		
+		if(!newItem.isStackable()) {
+			if(lastEmptyCell < 8) {
+				this.inventory[this.lastEmptyCell] = newItem;
+				this.lastEmptyCell += 1;
+		
+				
+				if(newItem instanceof Weapon) {
+					weapons.add((Weapon) newItem);
+					if(weapons.size() == 1) {
+						equippedWeapon = (Weapon) newItem;
+					}
 				}
+				
 			}
-			
+			else {
+				System.out.println("You have no space in your inventory!");
+			}
 		}
 		else {
-			System.out.println("You have no space in your inventory!");
+			for(int i = 0; i < lastEmptyCell; i++) {
+				if(newItem.getName().equals(inventory[i].getName())) {
+					inventory[i].adjustAmount(newItem.getAmount());;
+					break;
+				}
+			}
 		}
 	}
 	
@@ -266,7 +278,28 @@ public class Character {
 		}
 		lastEmptyCell--;
 	}
-								//	---Constructors---  \\}
+	
+								//	---Money Methods---	\\
+	
+	public void setMoney(int money) {
+		this.money = money;
+	}
+	
+	public void adjustMoney(int money) {
+			this.money += money;
+	}
+	
+	public void purchaseItem(Item item) {
+		if (item.getPrice() > this.money) {
+			System.out.println("You do not have enough money for this");
+		}
+		else {
+			adjustMoney(-(item.getPrice()));
+			addItem(item);
+		}
+	}
+	
+								//	---Constructors---  \\
 	
 	public Character() {
 		this.stats.getXp().setStat(0);

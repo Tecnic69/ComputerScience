@@ -17,12 +17,12 @@ package finalProject.Locations;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import finalProject.CharacterObjects.Character;
-import finalProject.CharacterObjects.NPC;
-import finalProject.CharacterObjects.Stat;
-import finalProject.CharacterObjects.Item;
-
+import finalProject.Items.Item;
 import finalProject.TextGame;
+import finalProject.CharacterTypes.Character;
+import finalProject.CharacterTypes.Merchant;
+import finalProject.CharacterTypes.NPC;
+import finalProject.CharacterTypes.Stat;
 
 public class Event {
 	private Scanner input = new Scanner(System.in);
@@ -101,13 +101,18 @@ public class Event {
 								//	---NPC Methods---	\\
 	
 	public void addNPC(NPC npc) {
-		eventNPC.add(npc);
-		addChoice(new Choice("Interact with " + npc, () -> {NPCEvent(npc);displayEvent();}));
+		if(npc instanceof Merchant) {
+			eventNPC.add(npc);
+		}
+		else {
+			eventNPC.add(npc);
+			addChoice(new Choice("Interact with " + npc, () -> {NPCEvent(npc);displayEvent();}));
+		}
 	}
 	
 	public void removeNPC(NPC npc) {
 		eventNPC.remove(npc);
-		
+
 		for(int i = 0; i < eventChoices.size(); i++) {
 			if(("Interact with " + npc).equals("" + eventChoices.get(i))) {
 				eventChoices.remove(i);
@@ -115,6 +120,15 @@ public class Event {
 			}
 		}
 	}
+	
+	/*
+	 * 							---Sub Events---
+	 * 
+	 * These are sub events built into every Event so that I can call and return to my old event
+	 * 
+	 * If I created a seperate event then I would need to keep track of the current event so that I can return to the event
+	 * 
+	 */
 	
 		//	Events that are created when an NPC is interacted with
 	public void NPCEvent(NPC NPC) {
@@ -175,7 +189,7 @@ public class Event {
 		else {
 			System.out.println("\nYou killed the " + enemy);
 			enemy.displayDeathEvent();
-			eventNPC.remove(enemy);
+			removeNPC(enemy);
 		}
 		
 	}

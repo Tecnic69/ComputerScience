@@ -7,7 +7,7 @@
  * 
  */
 
-package finalProject.CharacterObjects;
+package finalProject.Items;
 
 import java.util.Random;
 
@@ -23,11 +23,14 @@ public class Weapon extends Item {
 		
 		summary += ":\n";
 		summary += "     Damage: " + damageMin + " - " + damageMax + "\n";
-		summary += "     Hit Chance: " + hitChance + "%";
+		summary += "     Hit Chance: " + hitChance + "%\n";
+		
 		
 		if (isRanged == true) {
-			summary += "\n     Ammo: " + ammo.getName();
+			summary += "     Ammo: " + ammo.getName() + "\n";
 		}
+		
+		summary += "     Price: " + getPrice() + " coins";
 		
 		return (super.toString() + summary);
 	}
@@ -57,26 +60,31 @@ public class Weapon extends Item {
 	
 											//	---Constructors---  \\
 	public Weapon() {
-		super();
+		this.name = "Fist";
 		this.damageMax = 2;
 		this.damageMin = 1;
-		this.hitChance = 50;
+		this.hitChance = 10;
+		this.stackable = false;
 	}
 		
-	public Weapon(String name, int damageMin, int damageMax, int hitChance) {
-		super(name);
+	public Weapon(String name, int damageMin, int damageMax, int hitChance, int price) {
+		this.name = name;
+		this.price = price;
 		this.damageMin = damageMin;
 		this.damageMax = damageMax;
 		this.hitChance = hitChance;
+		this.stackable = false;
 	}
 
-	public Weapon(String name, int damageMin, int damageMax, int hitChance, Ammunition ammo) {
-		super(name);
+	public Weapon(String name, int damageMin, int damageMax, int hitChance, Ammunition ammo, int price) {
+		this.name = name;
+		this.price = price;		
 		this.damageMin = damageMin;
 		this.damageMax = damageMax;
 		this.hitChance = hitChance;
 		this.isRanged = true;
 		this.ammo = ammo;
+		this.stackable = false;
 	}
 	
 	

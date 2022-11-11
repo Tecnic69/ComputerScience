@@ -4,15 +4,17 @@
  * TO DO:
  * 1.) Money System
  * 2.) Usable Items
- * 3.) NPC interactions with friend Stats
+ * 3.) Quests
  */
 
 package finalProject;
 
 import java.util.Scanner;
 
-import finalProject.CharacterObjects.*;
-import finalProject.CharacterObjects.Character;
+import finalProject.CharacterTypes.*;
+import finalProject.CharacterTypes.Character;
+import finalProject.Items.Ammunition;
+import finalProject.Items.Weapon;
 import finalProject.Locations.*;
 
 public class TextGame {
@@ -21,10 +23,10 @@ public class TextGame {
 	static Ammunition arrows = new Ammunition("Arrows", 10);
 	
 		//	Declared Items - Weapons("Name" , minDamage, maxDamage, hit%)
-	static Weapon cane = new Weapon("Cane", 1, 3, 35);
-	static Weapon oldSword = new Weapon("Old Sword", 5, 7 , 63);
-	static Weapon oldAxe = new Weapon("Old Axe", 8, 10, 45);
-	static Weapon oldBow = new Weapon("Old Bow", 6, 9, 55, arrows);
+	static Weapon cane = new Weapon("Cane", 1, 3, 35, 1);
+	static Weapon oldSword = new Weapon("Old Sword", 5, 7 , 63, 1);
+	static Weapon oldAxe = new Weapon("Old Axe", 8, 10, 45, 1);
+	static Weapon oldBow = new Weapon("Old Bow", 6, 9, 55, arrows, 1);
 	
 		//	Main Player declaration
 	public static Character player =  new Character();
@@ -47,8 +49,14 @@ public class TextGame {
 		
 		oldMan.addItem(cane);
 		
+		player.getStats().getFriendStat(oldMan).setStat(80);
+		
+		oldMan.addDialogue("I love you", 1);
+		
 		oldMan.addDialogue("Hello yourng wipper snapper", 0);
 		oldMan.addDialogue("...Oh did you say something", 0);
+		
+		oldMan.addDialogue("fuck you", -1);	
 		
 		Event death = new Event("You see the corpse of the man you jsut killed\nWhat wold you like to do", false);
 		death.addChoice(new Choice("Loot Body", () -> {}));
